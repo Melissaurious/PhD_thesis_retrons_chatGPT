@@ -1,0 +1,498 @@
+% =====================================================================
+%  Results -- Characterisation of the RT/retron mining corpus  (v2)
+%
+%  Restructured around the dataset funnel: every reduction in the final
+%  resource is attributed to a finding established earlier in the chapter.
+%
+%  Requires:
+%    \usepackage{booktabs}
+%    \usepackage{graphicx}   % \graphicspath{{figures/}}
+%    \usepackage{siunitx}    % \sisetup{group-separator={,}}
+%  siunitx v3: use \qty{}{} in place of \SI{}{}, or load [=v2].
+%  Without siunitx: \newcommand{\num}[1]{#1}, \newcommand{\SI}[2]{#1\%}
+%
+%  Cross-reference \ref{sec:discovery-pipeline} supplies the database
+%  inventory, genome/metagenome totals and domain composition.
+% =====================================================================
+
+\section{Characterisation of the reverse-transcriptase mining corpus}
+\label{sec:dbchar}
+
+\subsection{Scope and analytical population}
+\label{sec:dbchar:scope}
+
+Mining the collections described in Section~\ref{sec:discovery-pipeline} returned \num{3059700}
+reverse-transcriptase-anchored records. Records anchored on a non-coding RNA rather than on a
+reverse transcriptase were excluded from every analysis reported here and are not counted in any
+denominator below.
+
+Analyses were performed on one of two populations, named wherever a number is given. The
+\emph{sequence population} retains one copy of each duplicated record and excludes multi-labelled
+records, giving \num{3042216} records carrying \num{493964} distinct RT proteins; it is used
+wherever the protein alone is the unit of analysis. The \emph{context population} additionally
+requires that the RT coordinates be verifiable against the extracted genomic window, giving
+\num{3026000} records and \num{477956} distinct proteins; it is used wherever genomic context
+matters. The \num{16008} proteins present in the first and absent from the second are the subject
+of Section~\ref{sec:dbchar:qc}.
+
+\subsection{What constitutes one observation}
+\label{sec:dbchar:units}
+
+The corpus cannot be counted in a single unit, because the same biological entity appears in it
+repeatedly and for three distinct reasons. Distinguishing them is a prerequisite for every
+subsequent number.
+
+A \emph{locus} is a coordinate interval on a named contig: the contig accession together with the
+start, end and strand of the RT. Two deposits of the same physical position under different contig
+accessions are therefore two loci. A \emph{physical locus} collapses accession spellings of one
+contig. A \emph{distinct RT protein} is a distinct amino-acid sequence.
+
+\paragraph{Redundancy of deposition.} The same assembly is frequently present under more than one
+collection: \num{111394} of \num{1542433} genomes appear under two. At the locus level,
+\num{200914} loci are present under both the NCBI and GTDB bacterial collections, because GTDB
+re-publishes assemblies obtained from NCBI. Collapsing accession spellings reduces \num{2847312}
+loci to \num{2475684} physical loci, and every one of the \num{371628} collapses was confirmed by
+identical window sequence, identical RT protein, identical coordinates and identical strand.
+
+\paragraph{Redundancy of sampling.} This is by far the larger effect and is not removed by any
+accession-level correction. Three species account for \SI{47}{\percent} of all NCBI-assigned
+records: \emph{Escherichia coli} (\num{450012} records), \emph{Salmonella enterica}
+(\num{374314}) and \emph{Klebsiella pneumoniae} (\num{237525}). The consequence is visible when the
+same organisms are counted in distinct proteins rather than records: \emph{E.\ coli} contributes
+\num{28018} distinct proteins from \num{450012} records, or six distinct proteins per hundred
+records, whereas \emph{uncultured Lachnospiraceae} contributes \num{7539} from \num{16408}
+records, or forty-six (Figure~\ref{fig:taxa}). A family or a taxon that is common on records may be
+ordinary on proteins purely because the organisms carrying it have been sequenced often.
+
+\paragraph{Consequence.} Record counts describe deposition; protein counts describe diversity.
+Neither is more correct, and every result below names which it uses (Table~\ref{tab:units}). A
+further limitation applies throughout: distinctness here is \emph{exact amino-acid identity}, so a
+single differing residue, an ambiguity character, or a truncated gene call produces a separate
+entry. All protein and RNA counts are consequently upper bounds on true distinctness, and sequence
+clustering is required before any diversity estimate or any partition of the data for modelling.
+
+\subsection{Annotation artefacts and what survives them}
+\label{sec:dbchar:qc}
+
+\num{31504} records carry no annotated coding sequence for the RT they are anchored on. Resolving
+them separates a recoverable annotation failure from an irrecoverable one
+(Table~\ref{tab:recovery}). For \num{14188} records the coding sequence was reconstructed by
+translating the genomic window and matching the stored protein, and these retain full genomic
+context. For \num{16688} the protein is usable but the genomic context is not: the RT lies wholly
+beyond the retrieved contig (\num{9128}), crosses a contig boundary (\num{3636}), or sits in an
+inverted window from which no sequence could be recovered (\num{3924}). A further 628 are
+irrecoverable.
+
+The cause is unambiguous. All \num{16688} context-less records originate from metagenome-derived
+collections and none from isolate-derived collections, where the rate is zero; within the human-gut
+MAG collection they are \SI{10.81}{\percent} of records. Short, fragmented assemblies simply do not
+extend far enough for a gene near a contig edge to be fully represented. This is an assembly
+property rather than a detection failure, and it is the reason the two analytical populations of
+Section~\ref{sec:dbchar:scope} exist: these records contribute their protein to sequence-level
+analyses and are excluded from anything requiring genomic neighbourhood.
+
+Windows truncated at a contig edge were retained rather than excluded, because they are numerous
+(approximately \SI{41}{\percent} of records carry a truncation flag) and their RT coordinates are
+verified; where truncation affects a measurement it is handled by stratification, as in
+Section~\ref{sec:dbchar:architecture}.
+
+\subsection{Composition of the RT family landscape}
+\label{sec:dbchar:families}
+
+The \num{493964} distinct RT proteins of the sequence population resolve into \num{486371}
+single-family proteins across 41 family labels and \num{7593} multi-labelled proteins. Three
+families dominate protein-level diversity: RVT-GII, Retron and RVT-DGRs, together approximately
+\SI{83}{\percent} of single-family proteins.
+
+Reporting each family on records and on distinct proteins side by side makes the redundancy of
+Section~\ref{sec:dbchar:units} concrete and family-specific (Figure~\ref{fig:families}). Families
+whose record share greatly exceeds their protein share are those concentrated in repeatedly
+deposited isolate genomes; the ratio of records to distinct proteins, shown alongside, is a direct
+measure of how often the same protein was deposited.
+
+RT protein length differs between families but does not separate them, and the comparison is only
+meaningful once call completeness is accounted for. Completeness is derived from the gene caller's
+partial-gene attribute, which records separately whether the 5$'$ and 3$'$ ends of the called gene
+were found or ran off the contig. Across distinct records, \SI{88.19}{\percent} of RT genes are
+complete at both ends, \SI{4.79}{\percent} are truncated at the 5$'$ end, \SI{4.31}{\percent} at
+the 3$'$ end and \SI{1.68}{\percent} at both. Since \SI{25.2}{\percent} of distinct proteins are
+partial at every occurrence, and partial calls are short by construction, a length distribution
+pooling both classes understates every family. Figure~\ref{fig:lengths} therefore reports complete
+and partial calls separately. On complete calls the overall median is 385 amino acids, with Retron
+at 342 and RVT-GII at 407, while several ungrouped families occupy longer regimes consistent with
+domain fusion. Extreme values were retained rather than trimmed.
+
+Twelve proteins appear under more than one family label. All twelve carry the same pair,
+\texttt{RVT-CRISPR} and \texttt{RVT-CRISPR-like} (Table~\ref{tab:crosslabel}), identifying a single
+region of overlap between two closely related profiles rather than dispersed inconsistency. The two
+families are not merged: they differ in median length by more than a hundred amino acids
+(\num{4035} proteins at 468 versus \num{3156} at 331), and twelve shared proteins out of
+\num{7191} describe a profile boundary rather than an identity.
+
+\paragraph{Multi-labelled proteins.} Re-scoring the \num{7593} multi-labelled proteins against the
+family profile library places the highest-scoring family among the labels already assigned in
+\SI{99.91}{\percent} of cases, so the multiple labels are not erroneous. They are nonetheless not
+resolvable: the median margin between the best- and second-best-scoring family is 5~bits, and
+\SI{99.8}{\percent} of these proteins have a margin below 20~bits, against a median of 81.7~bits in
+a seeded single-family control in which the best-scoring profile matched the known label for
+\SI{98.10}{\percent} of proteins. Assigning each protein to its highest-scoring family would
+therefore distribute \num{7593} proteins among families on evidence that does not distinguish those
+families. They are excluded from family-level statistics, in which they would enter two denominators
+at once, and retained in sequence-level analyses with their label set preserved.
+
+\subsection{Detection of the associated non-coding RNA}
+\label{sec:dbchar:ncrna}
+
+Non-coding RNAs were detected with a library of 21 retron covariance models, yielding \num{346722}
+calls that reduce to \num{16458} distinct RNA sequences. Each distinct sequence is matched by
+exactly one model, so per-model counts partition the sequence set cleanly
+(Figure~\ref{fig:ncrna}). Detected RNAs occupy a narrow length regime (median 151~nt, interquartile
+range 131--193), and most individual models return hits of nearly constant length: these are
+model-defined hit boundaries rather than independently determined transcript boundaries, and the
+distinction matters for any downstream use of the sequences.
+
+Hit confidence is high and uniform enough to be used as a filter rather than merely reported:
+\SI{97.75}{\percent} of calls have an expectation value at or below $10^{-5}$ and
+\SI{55.81}{\percent} at or below $10^{-20}$ (Figure~\ref{fig:taxa}). Confidence is not evenly
+distributed across models, however; one model returns \SI{39.2}{\percent} of its calls above
+$10^{-5}$, so a global threshold affects models unequally.
+
+Detection is strongly family-restricted: \SI{52.77}{\percent} of Retron loci carry at least one
+call, against at or below \SI{0.1}{\percent} for every other family. This asymmetry is expected and
+is not evidence about the biology of other families. The models are retron models, so their failure
+to match elsewhere measures the scope of the instrument. Figure~\ref{fig:famxmodel} accordingly
+reports what the retron models find across families, and should not be read as a statement of which
+families lack associated RNAs. Establishing absence would require a positive control demonstrating
+that the same instrument recovers a known-present case on an appropriate substrate.
+
+\subsection{Genomic architecture of the RT--RNA association}
+\label{sec:dbchar:architecture}
+
+Geometry was computed from coordinates and strand throughout. The \num{346722} placements reduce to
+\num{344154} after removing placements on duplicated records and repeated observations of the same
+call at one locus; these are referred to below as \emph{eligible, non-redundant placements}, a
+technical description that carries no implication of biological validity.
+
+The dominant arrangement is close, same-strand and 5$'$ (Table~\ref{tab:geometry}): the RNA lies
+upstream of the RT in \SI{94.51}{\percent} of placements, overlaps it in \SI{3.52}{\percent} and
+lies downstream in \SI{1.96}{\percent}; the median upstream separation is 55~bp; \SI{99.12}{\percent}
+are on the same strand as the RT; and \SI{94.41}{\percent} have no annotated coding sequence between
+the two features.
+
+These properties are strongly coupled rather than independently distributed. The single combination
+of upstream, same strand, no intervening coding sequence and separation within 200~bp accounts for
+\SI{55.22}{\percent} of placements, and the remaining combinations fall away by orders of magnitude.
+Re-weighting from placements to distinct physical loci leaves the marginals almost unchanged, so the
+arrangement is not produced by one position being deposited repeatedly. Re-weighting to distinct
+sequence pairs is more discriminating: the band within 200~bp strengthens to \SI{73.86}{\percent} of
+distinct pairs, while the 1--5~kb band collapses from \SI{32.83}{\percent} of placements to
+\SI{2.95}{\percent} of pairs, showing the latter to be carried by few sequence pairs observed many
+times. Close 5$'$ adjacency is therefore the dominant arrangement under every weighting and the only
+band that strengthens when redundancy is removed.
+
+These are coordinates. They are compatible with a shared transcriptional unit and do not demonstrate
+one, and they carry no information about recognition between a particular RT and a particular RNA.
+
+\paragraph{Overlapping placements.} The \num{12124} overlapping placements are a benign class rather
+than a failure. In \SI{97.36}{\percent} of them the RNA overlaps the RT gene itself and not some
+other feature; only 45 overlap a different coding sequence. The extent is small: a median of 22~bp,
+with \SI{58.5}{\percent} overlapping a tenth or less of the RNA and only 266 lying entirely within a
+coding sequence. This is the short encroachment expected where an RNA abuts the 5$'$ end of a gene
+in a compact locus. Overlapping placements are accordingly retained in the association resource as a
+flagged class, and only the two small pathological subsets are set aside.
+
+\paragraph{A technical mode among downstream placements.} Where the extraction window begins at the
+start of a contig there is no sequence upstream of the RT to search, so any RNA found is necessarily
+reported downstream. These forced placements accumulate at one separation: \num{5234} placements,
+\SI{77.4}{\percent} of all downstream placements, lie within 150~bp of a median of \num{2682}~bp,
+and involve only 18 distinct RNA sequences across 15 species, with \SI{99.96}{\percent} of the
+dominant stratum truncated at the contig start. Once they are set aside, the \num{1041} remaining
+downstream placements lie at a median of 64~bp and involve 149 distinct sequences, that is, close to
+the RT in the same way upstream placements are.
+
+\paragraph{Placements on the opposite strand.} The \num{3041} placements on the strand opposite the
+RT are concentrated rather than scattered: \SI{84.5}{\percent} come from one covariance model and
+\SI{96}{\percent} occur at Retron loci. They differ from same-strand placements in every respect
+that matters. Their median separation is \num{4750}~bp against 44~bp, and only \SI{12.5}{\percent}
+have no intervening coding sequence against \SI{95.1}{\percent}. They are not an artefact of
+repeated deposition, spanning \num{1324} physical loci across 67 species, and they are not weak
+matches, since \num{2921} of \num{3041} have an expectation value at or below $10^{-5}$. The same
+model additionally produces \num{1576} same-strand placements at a median of 64~bp across 292
+species. A hit several kilobases away, with genes in between, is a match elsewhere in the retained
+genomic window rather than a component of the RT's own locus, and these placements are excluded
+from the association resource on that basis.
+
+\paragraph{Retron models at non-Retron RT loci.} Non-Retron RT loci carrying a retron covariance
+model hit show both a weaker positional preference (\SI{57.69}{\percent} of 260 eligible placements
+upstream, against \SI{94.51}{\percent} for Retron) and a far greater separation: a median of
+\num{1802}~bp for upstream placements and \num{4281}~bp for downstream ones, against 55~bp for
+Retron (Figure~\ref{fig:architecture}). They are not architecturally consistent with retron loci and
+are retained as candidates for annotation follow-up rather than described as divergent retrons.
+
+\subsection{Structure of the association at sequence level}
+\label{sec:dbchar:pairs}
+
+Reducing placements to distinct pairs of sequences gives \num{30924} RT--RNA pairs over \num{29192}
+distinct RT proteins and \num{16458} distinct RNAs. As observed, the association is close to
+one-to-one: \SI{96.85}{\percent} of the RT proteins occur with exactly one RNA sequence and
+\SI{82.28}{\percent} of RNAs with exactly one RT protein.
+
+The exceptions are, on inspection, consequences of exact-sequence identity rather than of biology,
+and they illustrate why the caveat of Section~\ref{sec:dbchar:units} is load-bearing. Where an RT
+protein has several RNA partners, those partners are almost always length variants of one RNA: for
+659 of the 921 such proteins the partner sequences differ in length by 5~nt or less, and the most
+extreme case, 176 partners, is a near-continuous length series from 68 to 223~nt with 57 sequences
+at exactly 158~nt, produced by the model trimming its hit slightly differently at each locus.
+Correspondingly, the RNA with the greatest number of RT partners occurs across \num{25748} genomes
+but only 17 species, and its partners range from 58 to \num{1254} amino acids within one family,
+that is, length and truncation variants of related proteins in heavily sequenced taxa.
+
+Apparent many-to-many structure is therefore largely redundancy. Establishing the true topology
+requires clustering both sequence sets at a stated identity threshold, or trimming RNAs to a common
+model-defined boundary, before partners are counted.
+
+Recurrence was classified by the kind of repetition it represents. Of the \num{30924} pairs,
+\num{12005} occur once, \num{9362} recur only as multiple database copies of a single physical
+locus, \num{4452} recur across genomes of one species and \num{5056} across species. Approximately
+one third of the apparent recurrence in this resource is therefore deposition rather than
+independent observation, and only the last two classes support an evolutionary reading.
+
+\subsection{From observations to an association resource}
+\label{sec:dbchar:dataset}
+
+The preceding sections each identify a population that should not enter a resource intended to
+represent RT--RNA association, and applying them in sequence gives the reduction shown in
+Figure~\ref{fig:funnel} and Table~\ref{tab:funnel}. Beginning from \num{30427} distinct sequence
+pairs supported by eligible, non-redundant placements, restriction to the Retron family
+(\num{30287}), to same-strand placements (\num{29837}), to placements that are not downstream
+(\num{29440}), to those with no intervening coding sequence (\num{28442}), to a separation within
+200~bp (\num{25673}) and to high-confidence model hits (\num{23680}) retains \SI{77.8}{\percent} of
+the starting set.
+
+Each reduction is attributable. Restriction to Retron follows from detection being
+retron-model-scoped (Section~\ref{sec:dbchar:ncrna}); the exclusion of opposite-strand and
+downstream placements follows from their being, respectively, distant single-model matches elsewhere
+in the window and a window-truncation artefact (Section~\ref{sec:dbchar:architecture}); the
+adjacency and separation criteria follow from the joint geometry; and the confidence threshold costs
+little because \SI{97.75}{\percent} of calls already satisfy it. Overlapping placements are retained,
+for the reasons given above.
+
+Two limitations remain, and both are deliberate. Sequence clustering has not been applied, so the
+pair counts are upper bounds and the resource is not yet partitioned for modelling: variants of a
+single RNA, and truncated variants of a single protein, would otherwise fall on both sides of any
+split. And the resource is conditioned on the detection route, as Section~\ref{sec:dbchar:tools}
+shows. It is offered in tiers rather than as a single thresholded set, so that a downstream
+application may select its own operating point, and the numbers above define the most restrictive
+tier.
+
+\subsection{Dependence on the annotation route}
+\label{sec:dbchar:tools}
+
+Every result above is conditioned on which tools annotated a locus, and the size of that effect is
+only visible on the protein axis. Across the \num{78287} distinct Retron RT proteins, the three
+detection routes partition as shown in Figure~\ref{fig:venn}. myRT alone accounts for \num{29436}
+distinct proteins, more than the \num{20203} recovered by all three tools together; on records the
+ordering reverses, because the three-tool intersection is dominated by repeatedly deposited
+organisms. A tool-defined subset of this corpus is not a random subset of it.
+
+The apparent rate of RNA association depends on the same choice. Among proteins detected by myRT and
+PADLOC the RNA carriage rate is \SI{87.58}{\percent}, and among those detected by myRT alone it is
+\SI{18.64}{\percent}. The covariance models are not evenly distributed across tool combinations
+either, with individual models occurring almost entirely within particular combinations, so which
+model matched and which tools called the locus are not independent.
+
+Two limitations follow. The tools share model lineage, so their agreement is not independent
+corroboration; and the absence of a tool from a record cannot be distinguished from that tool never
+having been run on the corresponding genome, so these figures bound tool coverage from below.
+
+% =====================================================================
+%  TABLES
+% =====================================================================
+
+\begin{table}[htbp]
+\centering
+\caption[Analytical units]{Analytical units of the corpus, with the quantity each is honest for.}
+\label{tab:units}
+\begin{tabular}{llr}
+\toprule
+Unit & Definition & Count \\
+\midrule
+Record                & one mined RT-anchored observation                    & \num{3059700} \\
+Distinct record       & after duplicated records collapse                    & \num{3051238} \\
+Locus                 & contig accession, RT start, end and strand           & \num{2847312} \\
+Physical locus        & locus after contig-accession normalisation           & \num{2475684} \\
+Distinct RT protein   & distinct amino-acid sequence                         & \num{501561}  \\
+Genome                & distinct normalised genome identifier                & \num{1542433} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Records lacking an annotated RT coding sequence]{Resolution of the \num{31504} records
+lacking an annotated RT coding sequence. The context-less classes derive entirely from
+metagenome-assembled genomes.}
+\label{tab:recovery}
+\begin{tabular}{llr}
+\toprule
+Outcome & Basis & Records \\
+\midrule
+Coding sequence recovered   & reconstructed and verified against the window & \num{14188} \\
+Protein only, no context    & RT beyond the retrieved contig                & \num{9128}  \\
+                            & RT crossing a contig boundary                 & \num{3636}  \\
+                            & inverted window, no sequence retrieved        & \num{3924}  \\
+Irrecoverable               &                                               & 628 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Proteins observed under more than one family label]{The twelve distinct RT proteins
+observed under more than one family label. All carry the same pair.}
+\label{tab:crosslabel}
+\begin{tabular}{lrrr}
+\toprule
+Label pair & Proteins & Length range (aa) & Genomes \\
+\midrule
+\texttt{RVT-CRISPR} / \texttt{RVT-CRISPR-like} & 12 & 202--983 & 2--50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Geometry of eligible non-redundant placements]{Geometry of the \num{344154} eligible,
+non-redundant RT--RNA placements.}
+\label{tab:geometry}
+\begin{tabular}{lrr}
+\toprule
+Property & Placements & Percentage \\
+\midrule
+RNA upstream of the RT   & \num{325269} & 94.51 \\
+Overlapping the RT       & \num{12124}  & 3.52 \\
+RNA downstream of the RT & \num{6761}   & 1.96 \\
+\midrule
+Same strand as the RT    & \num{341113} & 99.12 \\
+No intervening CDS       & \num{324904} & 94.41 \\
+One intervening CDS      & \num{12427}  & 3.61 \\
+\midrule
+\multicolumn{3}{l}{Median upstream separation: 55~bp} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Construction of the association resource]{Construction of the RT--RNA association resource,
+with the finding motivating each reduction.}
+\label{tab:funnel}
+\begin{tabular}{llrr}
+\toprule
+Criterion & Motivating finding & Pairs & Retained (\%) \\
+\midrule
+Eligible, non-redundant   & de-duplication, coordinate verification & \num{30427} & 100.0 \\
+Retron family             & detection is retron-model-scoped        & \num{30287} & 99.5 \\
+Same strand               & opposite strand matches elsewhere       & \num{29837} & 98.1 \\
+Not downstream            & window-truncation artefact              & \num{29440} & 96.8 \\
+No intervening CDS        & operonic architecture                   & \num{28442} & 93.5 \\
+Within 200~bp             & the joint-geometry mode                 & \num{25673} & 84.4 \\
+Model hit $E \le 10^{-5}$ & detection confidence                    & \num{23680} & 77.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+%  FIGURES
+% =====================================================================
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N6_taxa_and_confidence}
+\caption[Sampling redundancy and model confidence]{Left: the most frequently deposited species carry
+few distinct RT proteins; labels give distinct proteins per hundred records. Right: covariance-model
+hit confidence, showing that a threshold at $E \le 10^{-5}$ retains \SI{97.75}{\percent} of calls.}
+\label{fig:taxa}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N2_family_composition_all}
+\caption[RT family composition]{All 41 single-family labels, shown as a share of records and of
+distinct proteins. The gap between the two bars is the redundancy of deposition; the right panel
+gives it directly as records per distinct protein.}
+\label{fig:families}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N3_rt_length_by_completeness}
+\caption[RT protein length by family and completeness]{RT protein length by family, separated by
+call completeness. Partial calls are short by construction, so pooling the two classes understates
+every family.}
+\label{fig:lengths}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{C2_ncrna_length_by_model}
+\caption[Detected RNA length by covariance model]{Length of detected RNAs by covariance model, on
+distinct sequences. Each distinct sequence is matched by exactly one model. These are model-defined
+hit boundaries, not transcript boundaries.}
+\label{fig:ncrna}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N4_family_x_model}
+\caption[Retron covariance models across RT families]{What the retron covariance models find across
+RT families. Near-absence outside the Retron family reflects the scope of the model library and is
+not evidence that other families lack associated RNAs.}
+\label{fig:famxmodel}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N5_architecture_retron_vs_not}
+\caption[RT--RNA architecture]{Architecture of the RT--RNA association, comparing Retron loci with
+non-Retron loci carrying a retron model hit. Overlapping placements are shown as their own category;
+the rightmost panel gives the extent of overlap, which is predominantly a short encroachment on the
+RT gene itself.}
+\label{fig:architecture}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N8_dataset_funnel}
+\caption[Construction of the association resource]{Reduction from eligible placements to the
+association resource, with the count removed at each step and the finding that motivates it.}
+\label{fig:funnel}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N1_tool_venn}
+\caption[Detection route]{Agreement between detection routes on distinct Retron RT proteins (left)
+and on records (centre), and the RNA carriage rate of each combination (right). The protein and
+record axes give opposite orderings.}
+\label{fig:venn}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{N7_burden_and_cooccurrence}
+\caption[RT burden and family co-occurrence]{Distinct RT proteins per genome, genomes carrying
+several Retron loci, and the RT family pairs most often sharing a genome. Measured on RT-carrying
+genomes only, so it describes co-occurrence among them rather than enrichment.}
+\label{fig:burden}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{M2_operons_strand_normalised}
+\caption[Representative loci]{Representative RT--RNA loci selected by the criteria of
+Section~\ref{sec:dbchar:dataset}. All are drawn on the plus strand so that transcription runs left
+to right; the strand each locus was found on is marked. Grey arrows are flanking genes outside the
+delimited run.}
+\label{fig:operons}
+\end{figure}
