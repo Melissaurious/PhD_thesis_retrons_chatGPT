@@ -1,0 +1,449 @@
+\chapter{Sequence and Structural Homology for domain boundary extraction}
+\label{chapter4}
+\thispagestyle{empty}
+%\lstset{basicstyle={\ttfamily,\small}, frame=lines}
+
+
+% =====================================================================
+% Suggested replacement for the RT0--RT7 section in Chapter_3.tex
+% This file is intentionally separate from the thesis. It assumes that the
+% main thesis preamble already defines the bibliography and standard packages.
+% Recommended packages for the tables:
+%   \usepackage{booktabs,tabularx,array,longtable,ragged2e}
+% =====================================================================
+
+\section{The RT0--RT7 partition: origin, biological meaning, and limits}
+\label{sec:rt-partition-revised}
+
+The RT0--RT7 nomenclature is widely used to compare bacterial and other
+non-LTR reverse transcriptases, but the labels do not represent eight
+equivalent structural domains. They are best treated as a comparative sequence
+framework that overlaps with, but is not identical to, the fingers, palm, and
+thumb architecture of the polymerase fold. This distinction matters here
+because the same sequence span may be used for alignment, phylogeny, domain
+completeness, or functional interpretation, even though those analyses do not
+require exactly the same boundaries.
+
+\subsection{How the partition entered the literature}
+
+The original comparative framework described conserved RT blocks 1--7 in a
+canonical polymerase alignment~\cite{xiong1990}. RT0 was introduced later in
+the study of non-LTR and group~II intron RT architectures, together with
+insertions such as RT2a and RT3a~\cite{malik1999,zimmerly2001}. These elements
+were not all defined by the same type of evidence. Some were identified as
+conserved alignment blocks, whereas others were described from structural or
+proteolytic fragments of a particular reference enzyme.
+
+Blocker \textit{et al.}~\cite{blocker2005} provided an important structural
+anatomy for the group~II intron maturase LtrA. Their analysis placed RT1--RT7
+within the fingers and palm region, associated RT0 with an N-terminal
+extension, and described additional insertions relative to the canonical RT
+fold. This study supports the biological reality of an extended non-LTR RT
+architecture, but it does not by itself establish that every boundary can be
+transferred unchanged to retron RTs.
+
+\begin{table}[ht]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}p{2.6cm}p{3.2cm}X p{3.0cm}@{}}
+\toprule
+\textbf{Source} & \textbf{Object studied} & \textbf{Contribution} & \textbf{Limit for retron use}\\
+\midrule
+Xiong and Eickbush~\cite{xiong1990} & Diverse RT alignments & RT1--RT7 comparative sequence blocks & RT0 was not part of the original partition\\
+Malik~\cite{malik1999}; Zimmerly~\cite{zimmerly2001} & Non-LTR and group~II RTs & RT0 and extended RT architecture & Boundaries originate outside retron-specific analyses\\
+Blocker \textit{et al.}~\cite{blocker2005} & LtrA structure and fragments & Structural placement of RT0--RT7 and insertions & One reference protein cannot define all bacterial RTs\\
+Simon and Zimmerly~\cite{simon2008} & Bacterial RT comparisons & Evidence for uneven cross-class alignability & Transferability differs between elements\\
+Toro \textit{et al.}~\cite{toro2019}; Mestre \textit{et al.}~\cite{mestre2020} & Retrons and retron-like RTs & Adoption of RT0--7 for large-scale retron comparison & The span is largely inherited rather than re-derived\\
+\bottomrule
+\end{tabularx}
+\caption[Provenance of the RT0--RT7 framework]{Provenance of the RT0--RT7 framework. The sources do not all define the same object or use the same evidence.}
+\label{tab:rt-sources-revised}
+\end{table}
+
+\subsection{What the elements contribute}
+
+The elements also differ in likely biological role. The central blocks around
+the conserved YXDD motif form the catalytic polymerase core. RT0 and the
+2a/3a insertions are associated with extended non-LTR architectures and may
+influence nucleic-acid engagement or template switching. RT1 lies near the
+active-site region and can be structurally dynamic. RT7 forms the C-terminal
+side of the polymerase; in retron RTs, it contains or borders region~Y, which
+has been implicated in recognition of cognate msr RNA~\cite{inouye1999,mestre2020}.
+
+For retrons, region~X lies between RT2 and RT3 and commonly contains an NAXXH
+motif, while region~Y lies near the C terminus and commonly contains the VTG
+motif~\cite{toro2014,mestre2020}. These motifs support annotation, but neither
+motif alone establishes retron identity, an RNA partner, or biochemical
+activity.
+
+\begin{table}[ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{@{}p{1.65cm}p{2.55cm}X p{2.85cm}@{}}
+\toprule
+\textbf{Element} & \textbf{Approximate location} & \textbf{Evidence and interpretation} & \textbf{Status for this study}\\
+\midrule
+RT0 / NTE & N-terminal extension & Structurally associated with extended non-LTR RTs; sequence transferability is limited~\cite{blocker2005,simon2008} & Test separately from the core span\\
+RT1 & Near the active-site region & Weak or uneven sequence recovery in bacterial comparisons; structural behavior can be dynamic & Quantify occupancy and boundary uncertainty\\
+RT2a / RT3a & Insertions between conserved blocks & Structural insertions characteristic of some non-LTR RTs & Record presence and length rather than force alignment\\
+RT1--RT7 core & Conserved polymerase region & Common comparative coordinate system around the catalytic core & Use for sensitivity analyses, not as an unquestioned truth\\
+Region X & Between RT2 and RT3 & NAXXH-associated retron feature; may contribute to productive initiation or catalysis~\cite{mestre2020} & Annotate per sequence\\
+Region Y & Within or after RT7 & VTG-associated C-terminal region; contributes to cognate msr recognition in characterized systems~\cite{inouye1999} & Candidate specificity feature\\
+\bottomrule
+\end{tabularx}
+\caption[Biological meaning of RT elements]{Biological and evidential status of the RT elements. Sequence blocks, structural insertions, and retron-specific regions are reported separately because they are not interchangeable.}
+\label{tab:rt-elements-revised}
+\end{table}
+
+The protein cannot be interpreted independently of the retron ncRNA. The
+ncRNA supplies the template and folds into the recognition scaffold used by
+the RT. Consequently, an RT span that is adequate for a catalytic-core
+comparison may be inadequate for predicting RT--ncRNA pairing or engineering
+tolerance. This is why the present work records protein boundaries, RNA
+architecture, and genomic context as separate evidence categories.
+
+\subsection{Use in retron classification and discovery}
+
+Toro \textit{et al.}~\cite{toro2019} and Rodríguez Mestre \textit{et al.}~\cite{mestre2020}
+used the RT framework in large-scale retron analyses. Mestre \textit{et al.}
+combined RT phylogeny, msr--msd structures, associated proteins or fused
+domains, and co-evolutionary evidence to classify retrons into RT clades and
+system types. The resulting framework is the principal reference map for the
+retron sequence space used in later studies.
+
+The myRT reference package provides a useful comparison because its protein
+models are based on the Pfam RVT\_1 domain rather than explicitly on the
+RT0--RT7 span~\cite{sharifi2022}. This demonstrates that RT annotation already
+uses more than one coordinate system, even when those systems are not directly
+compared.
+
+A recent bioRxiv preprint extends retron discovery into metagenomic space.
+Toro~\cite{toro2026} surveyed 107{,}078 representative SPIRE genomes and
+reported 1{,}286 retron candidates, including two candidate type XI-like
+lineages. The study combines type-specific HMMs, phylogenetic placement,
+genomic context, and de novo ncRNA analysis. It describes an RT1--RT7 motif
+core for candidate completeness and phylogenetic analysis, while the HMM
+searches use full reference sequences. The preprint is therefore relevant to
+the present section as a contemporary example in which detection and
+phylogenetic analysis operate on different protein representations.
+
+\subsection{Why the present work revisits the partition}
+
+The purpose of revisiting RT0--RT7 is not to discard the established retron
+classification. It is to distinguish inherited conventions from boundaries
+supported by sequence or structure, and to test whether the conclusions are
+stable when reasonable alternative spans are used.
+
+The present work therefore asks three related questions:
+\begin{enumerate}
+  \item Which RT elements can be assigned consistently across retron and
+        non-retron RTs?
+  \item Which boundaries are supported by structural correspondence rather
+        than by a transferred label?
+  \item How do boundary choices affect alignment quality, phylogeny, and the
+        identification of candidate RT--ncRNA pairs?
+\end{enumerate}
+
+The answer will determine which regions are appropriate for phylogenetic
+inference, which features can support retron annotation, and which protein
+regions should be considered when prioritizing systems for engineering.
+
+% Suggested placement for a later, separate subsection:
+% \subsection{Audit of the Toro 2026 operational criteria}
+% Put the detailed profile-count discrepancies, Supplementary Table S1
+% recalculations, and verification register here only after checking the
+% original supplementary files. They should not be part of the literature
+% background itself.
+
+
+
+
+
+% =====================================================================
+% Integrated replacement for the RT0--RT7 section in Chapter_3.tex
+% Separate working file. It assumes the thesis preamble defines the
+% bibliography and loads booktabs, tabularx, array and tikz as needed.
+% =====================================================================
+
+\section{The RT0--RT7 partition: provenance, structural meaning, and use in retron studies}
+\label{sec:rt-partition-integrated}
+
+The RT0--RT7 nomenclature is now routinely used to describe and compare
+prokaryotic reverse transcriptases. The notation is useful because it provides
+landmarks across highly divergent sequences, but it is not a single definition
+derived in one experiment. The elements entered the literature through several
+related studies of reverse transcriptases, non-LTR retroelements, and group~II
+intron maturases. They were subsequently transferred into bacterial RT and
+retron surveys, where they became a practical coordinate system for alignment
+and phylogenetic analysis.
+
+The distinction between a sequence coordinate system and a structural domain
+map is important. Reverse transcriptases generally fold into fingers, palm, and
+thumb subdomains, with the catalytic YXDD motif located in the palm. RT1--RT7
+are conserved sequence blocks associated with this polymerase fold, whereas
+RT0 and the 2a/3a insertions are extended features characteristic of many
+non-LTR RT architectures. The labels therefore do not describe eight
+equivalent, independently folded domains. A boundary that is useful for a
+structural comparison may not be the same boundary that is optimal for a
+multiple-sequence alignment or for a test of domain completeness.
+
+\subsection{Origin of the sequence framework}
+
+The first widely used comparative RT framework described seven conserved
+sequence regions, RT1--RT7, across reverse transcriptases from retroelements
+and related systems~\cite{xiong1990}. These blocks span the central polymerase
+architecture and include the conserved catalytic region. RT0 was not part of
+that original seven-block definition. It was introduced later through work on
+non-LTR retroelement and group~II intron RTs, together with insertions such as
+RT2a, RT3a, and RT7a~\cite{malik1999,zimmerly2001}.
+
+The later addition of RT0 is not a minor naming change. It reflects an
+expanded view of non-LTR RT architecture in which an N-terminal extension and
+internal insertions contribute to the organization of the polymerase. These
+features can be conserved structurally even when their primary sequences are
+too variable to align reliably across distant RT classes.
+
+Blocker \textit{et al.}~\cite{blocker2005} provided a detailed structural and
+proteolytic analysis of the group~II intron maturase LtrA. Their work placed
+RT1--RT7 within the fingers and palm region of the polymerase, associated RT0
+with an extended N-terminal region, and described the relationship between the
+RT core and the additional insertions. The study established a reference
+anatomy for a non-LTR RT, but it did not establish that the same residue
+boundaries should be transferred unchanged to every bacterial RT lineage.
+
+The origin and subsequent propagation of the partition are summarized in
+Table~\ref{tab:rt-sources-integrated}. The table separates the object studied
+from the type of evidence used, because sequence alignments, structural
+fragments, and retron phylogenies do not provide equivalent support for a
+boundary.
+
+\begin{table}[ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{@{}p{2.4cm}p{2.8cm}X p{3.0cm}@{}}
+\toprule
+\textbf{Source} & \textbf{Material analysed} & \textbf{Contribution to the framework} & \textbf{Interpretive limitation}\\
+\midrule
+Xiong and Eickbush~\cite{xiong1990} & Comparative RT sequences & RT1--RT7 sequence blocks across RTs & RT0 was not part of the original partition\\
+Malik~\cite{malik1999}; Zimmerly~\cite{zimmerly2001} & Non-LTR and group~II RTs & RT0 and extended RT architecture & Added from related RT literature, not retron-specific data\\
+Blocker \textit{et al.}~\cite{blocker2005} & LtrA structure and proteolytic fragments & Structural placement of RT0--RT7 and insertions & One maturase cannot define all bacterial RT boundaries\\
+Simon and Zimmerly~\cite{simon2008} & Broad bacterial RT comparisons & Uneven cross-class alignability of the elements & Transferability differs between elements and RT classes\\
+Toro \textit{et al.}~\cite{toro2019} & Large bacterial RT survey & RT landmarks transferred into a broad bacterial dataset & The span is used operationally rather than re-derived\\
+Mestre \textit{et al.}~\cite{mestre2020} & 1,912 retron-like RTs plus 16 validated RTs & RT0--7 adopted for retron phylogeny and classification & The inherited span defines the input to later analyses\\
+\bottomrule
+\end{tabularx}
+\caption[Provenance of the RT0--RT7 framework]{Provenance of the RT0--RT7 framework. The sources do not all define the same object or use the same evidence.}
+\label{tab:rt-sources-integrated}
+\end{table}
+
+\subsection{Structural meaning of the elements}
+
+At the level of three-dimensional architecture, bacterial and non-LTR RTs
+adopt the characteristic fingers--palm--thumb organization of polymerases.
+The palm contains the active site and the conserved YXDD motif, whose acidic
+residues coordinate catalytic metal ions during DNA synthesis. The fingers
+help position the template and incoming deoxynucleotide, while the thumb
+stabilizes the template--product duplex and helps maintain the geometry of the
+polymerase during extension. These subdomains are continuous structural
+features, whereas RT0--RT7 are sequence landmarks superimposed on that fold.
+
+RT0 is best described as an N-terminal extension or loop associated with
+extended non-LTR RT architectures. Structural and biochemical studies of
+related RTs suggest that this region can contribute to nucleic-acid engagement
+and template switching, but its sequence and precise role are not uniform
+across RT classes. RT2a and RT3a are insertions between conserved sequence
+blocks. They may be prominent in one RT lineage and absent or poorly aligned
+in another. RT7 forms the C-terminal side of the polymerase and is particularly
+relevant to retron RTs because it contains or borders the retron-specific
+region~Y.
+
+RT1 deserves separate treatment. It lies close to the active-site region and
+has been reported as difficult to align across diverse bacterial RTs
+\cite{simon2008}. Structural work also indicates that the corresponding region
+can be conformationally dynamic. In an apoenzyme it may be disordered or adopt
+an arrangement that changes when nucleic acid binds. Thus, weak sequence
+occupancy does not by itself prove that the element is absent, and a resolved
+structural element does not guarantee that its sequence can be transferred
+across all RTs.
+
+The relationship between sequence blocks and structural features is therefore
+approximate. Blocker \textit{et al.}~\cite{blocker2005} placed RT1--RT7
+collectively within the fingers and palm region, but this does not imply a
+one-to-one mapping between each numbered block and a complete structural
+subdomain. The RT0--RT7 nomenclature is most defensible when the intended use
+of each boundary is stated explicitly.
+
+\subsection{Retron-associated regions X and Y}
+
+Retron RTs contain additional sequence features that are more specific to
+retron biology than the generic polymerase motifs. Region~X lies between RT2
+and RT3 and commonly contains an NAXXH motif. In an early survey of
+retron/retron-like RTs, the histidine in this motif was completely conserved in
+the analysed set, while the asparagine and alanine were less uniformly
+conserved~\cite{toro2014}. Deletion experiments in Ec86 and Ec73 showed that
+region~X was not required for cognate msr binding but disrupted production of
+the msDNA product, suggesting a role in productive initiation or catalysis
+\cite{mestre2020}.
+
+Region~Y begins within RT7 and extends toward the C terminus. Many validated
+retron RTs contain a conserved VTG triplet near the beginning of this region,
+although substitutions occur in some systems~\cite{toro2014}. Region~Y is
+especially relevant to RT--RNA specificity. The C-terminal region of Ec86
+binds the Ec86 msr stem-loop but not the Ec73 msr, and the corresponding Ec73
+region shows the reciprocal preference. Swapping the regions changes the RNA
+recognition behavior of the chimeric proteins~\cite{inouye1999,mestre2020}.
+
+These findings support a division of labor within the protein. The central
+polymerase core explains catalytic competence, whereas regions such as X and Y
+may influence productive initiation and cognate RNA recognition. The division
+is functional rather than absolute: regions outside X and Y can also affect
+folding, substrate binding, and activity, and the evidence comes primarily
+from a limited number of experimentally characterized retrons.
+
+\begin{table}[ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{@{}p{1.7cm}p{2.5cm}X p{2.9cm}@{}}
+\toprule
+\textbf{Element} & \textbf{Approximate location} & \textbf{Sequence, structural, or functional evidence} & \textbf{Use in this study}\\
+\midrule
+RT0 / NTE & N-terminal extension & Structurally associated with extended non-LTR RTs; sequence transferability is limited~\cite{blocker2005,simon2008} & Analyse separately from the core span\\
+RT1 & Near active-site region & Uneven sequence occupancy; potentially conformationally dynamic & Quantify occupancy and uncertainty\\
+RT2a / RT3a & Insertions between conserved blocks & Structural insertions in some non-LTR RTs; not universal & Record presence and length\\
+RT1--RT7 & Conserved polymerase region & Common comparative span around the catalytic core & Compare alternative boundary definitions\\
+Region X & Between RT2 and RT3 & NAXXH-associated retron feature; linked to productive msDNA synthesis~\cite{toro2014,mestre2020} & Annotate per sequence\\
+Region Y & Within or after RT7 & VTG-associated C-terminal region; contributes to cognate msr recognition in characterized systems~\cite{inouye1999} & Candidate specificity feature\\
+YXDD & Catalytic palm region & Conserved polymerase motif; supports metal-dependent DNA synthesis & Catalytic-core annotation\\
+\bottomrule
+\end{tabularx}
+\caption[Evidence associated with RT elements]{Sequence and structural evidence associated with the RT elements. The final column records their role in the present analysis rather than asserting that every element has the same function in every RT.}
+\label{tab:rt-elements-integrated}
+\end{table}
+
+\subsection{Sequence alignability is not uniform across the span}
+
+Simon and Zimmerly~\cite{simon2008} showed that the RT elements do not have
+the same degree of conservation or cross-class alignability. The conserved
+central polymerase blocks provide the most reliable shared coordinate system,
+whereas the outer elements and insertions are more sensitive to lineage,
+sequence divergence, and domain architecture. In their comparison, the
+number of characters that could be aligned to a group~II reference depended on
+both the RT class and the element being considered. This result is relevant to
+the retron literature because a sequence can contain a recognizable catalytic
+core while lacking a confidently transferable RT0 or RT1 boundary.
+
+The consequences are methodological. A length threshold applied to an
+extracted RT0--RT7 span can exclude a sequence because of uncertainty at the
+outer boundaries rather than because the catalytic core is incomplete. A
+phylogenetic alignment restricted to a conserved RT1--RT7-like block may be
+more stable for some comparisons, but it no longer tests the same object as an
+RT0--RT7 length criterion. The two choices can both be reasonable if they are
+stated, but their results should not be treated as directly interchangeable.
+
+For this reason, the present work records the protein span used at each stage,
+the evidence supporting its boundaries, and whether the region is treated as
+sequence-alignable, structurally present, or merely expected from the
+reference architecture. This avoids collapsing three different statements:
+that a feature is part of the canonical fold, that it is detectable in a
+sequence, and that it can be aligned confidently across the dataset.
+
+\subsection{Transfer into retron classification}
+
+The retron studies by Toro \textit{et al.}~\cite{toro2019} and Rodríguez
+Mestre \textit{et al.}~\cite{mestre2020} used the RT framework as part of a
+large-scale comparative analysis. Mestre \textit{et al.} aligned the RT0--7
+region of 1,912 retron/retron-like sequences together with 16 RTs from
+experimentally validated retrons. They used the resulting phylogeny together
+with msr--msd structures, associated proteins or fused domains, and
+co-evolutionary evidence to define retron clades and system types.
+
+The framework made an important advance: it connected the RT sequence to the
+RNA and to the additional component of the retron system. It also established
+region~X and region~Y as useful retron-associated features. At the same time,
+the framework inherited the RT span and the assumptions behind its boundaries.
+The resulting classification therefore contains two kinds of information: an
+empirical signal from the sequences and a coordinate convention that determines
+which residues were compared.
+
+The myRT reference package provides a useful contrast. Its RT models are based
+on the Pfam RVT\_1 domain rather than explicitly on the RT0--RT7 span
+\cite{sharifi2022}. This does not make one coordinate system correct and the
+other incorrect. It demonstrates that bacterial RT annotation already uses
+multiple representations of the polymerase, and that a comparison of their
+boundaries is necessary when results are interpreted across studies.
+
+\subsection{Toro 2026 and the current retron literature}
+
+A recent bioRxiv preprint provides the most contemporary example of this
+issue. Toro~\cite{toro2026} surveyed retron RTs across 107{,}078 representative
+genomes from the SPIRE prokaryotic metagenome resource and reported 1{,}286
+retron candidates, including two candidate type~XI-like lineages. The study
+combined phylogenetic placement, genomic context, accessory-module analysis,
+and de novo identification of candidate msr--msd structures. It therefore
+extends retron discovery into a much larger and ecologically diverse sequence
+space than the earlier bacterial-genome surveys.
+
+For the protein comparison, Toro~\cite{toro2026} describes an RT1--RT7 motif
+core and reports that the reference phylogeny retained 203 alignment columns
+after removing columns with more than 50\% gaps. The paper does not describe
+RT0 in the main text or provide a new derivation of the RT1--RT7 boundaries.
+The result is a contemporary retron analysis in which the protein span used
+for candidate comparison is narrower than the RT0--RT7 terminology used in
+the earlier retron literature.
+
+This change should be described carefully. It does not demonstrate that RT0 is
+irrelevant, nor does it establish that RT1--RT7 is universally the correct
+span. It shows that a large modern retron survey can operate with a different
+coordinate system without explicitly resolving how that system relates to the
+earlier RT0--RT7 framework. The distinction matters because the same span can
+enter several stages of inference: sequence filtering, completeness assessment,
+phylogenetic reconstruction, and interpretation of candidate lineages.
+
+The preprint also states that retron groups lacking experimentally validated
+msr--msd structures were not represented in the covariance-model panel and
+that failure to detect an RNA in those groups should not be interpreted as
+evidence that no RNA exists~\cite{toro2026}. This is a useful example of
+separating absence of evidence from evidence of absence. The same discipline
+is needed for protein elements: an unalignable or unresolved region should be
+recorded as uncertain rather than silently treated as absent.
+
+The associated pipeline and reference trees have also been deposited
+separately, including the 1,286-candidate placement tree and the type~XI-like
+local tree~\cite{toro2026zenodo}. This improves traceability and may allow the
+relationship between the stated RT1--RT7 core and the sequences used in the
+analysis to be examined directly.
+
+\subsection{Implications for the present study}
+
+The literature supports three conclusions relevant to the present work. First,
+RT0--RT7 is a useful historical framework, but its elements were assembled
+from different kinds of sequence and structural evidence. Second, the elements
+are not equally transferable across RT classes or equally informative for
+every analysis. Third, retron studies now use more than one protein coordinate
+system, as illustrated by the contrast between RT0--7 in the earlier retron
+literature, RVT\_1-based annotation in myRT, and the RT1--RT7 core described
+in Toro~\cite{toro2026}.
+
+Accordingly, the present study treats RT boundaries as explicit analytical
+objects. The RT0--RT7 span is retained as a historical and biological reference,
+while alternative conserved-core spans are evaluated separately. RT0, RT1,
+the internal insertions, region~X, region~Y, and the YXDD motif are annotated
+individually rather than being reduced to a single completeness label. Protein
+boundaries are then considered together with RNA architecture and genomic
+context when retron RT--ncRNA pairs are compared.
+
+This approach preserves the information carried by the established retron
+classification while making its coordinate assumptions visible. It also
+allows later phylogenetic and candidate-prioritization analyses to distinguish
+biological differences between RTs from differences introduced by the span
+chosen to represent them.
+
+% Detailed recalculations from Toro (2026) Supplementary Table S1 should be
+% added only after the original supplementary file has been checked directly.
+% They belong in a later audit subsection, not in this literature background.
+
+

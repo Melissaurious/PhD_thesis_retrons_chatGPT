@@ -1,0 +1,559 @@
+% =====================================================================
+%  SUGGESTED ADDITIONS / REPLACEMENTS FOR sec:rt-partition
+%  Incorporating Toro (2026), bioRxiv 10.64898/2026.05.14.725207
+%
+%  Each block is marked [ADD], [REPLACE] or [EDIT] with the target
+%  location in RT0-RT7_theory.txt.
+% =====================================================================
+
+
+% ---------------------------------------------------------------------
+% [ADD] Preamble: new provenance macro
+% Place alongside \derived, \inherit, \noprov
+% ---------------------------------------------------------------------
+\newcommand{\operational}{\textsc{operational}}
+
+% ---------------------------------------------------------------------
+% [ADD] Preamble: \todo for the verification markers used below.
+% If you already load todonotes, delete this block -- \providecommand
+% will not override it, but the margin style may differ.
+%   \usepackage[colorinlistoftodos,textsize=footnotesize]{todonotes}
+% Minimal fallback (no package required):
+% ---------------------------------------------------------------------
+\providecommand{\todo}[1]{%
+  \marginpar{\raggedright\footnotesize\textbf{TODO:}~#1}}
+
+% Every \todo{} inserted below marks a quantity RECOMPUTED BY ANALYSIS
+% rather than read directly from the source. See the VERIFICATION
+% REGISTER at the end of this file. Strip all \todo{} before submission.
+
+
+% ---------------------------------------------------------------------
+% [ADD] Bibliography entry
+% ---------------------------------------------------------------------
+% @article{toro2026,
+%   author  = {Toro, Nicol\'{a}s},
+%   title   = {Landscape of retron diversity across the {SPIRE} prokaryotic
+%              metagenome resource reveals candidate novel type {XI}-like lineages},
+%   journal = {bioRxiv},
+%   year    = {2026},
+%   doi     = {10.64898/2026.05.14.725207},
+%   note    = {Preprint, posted 14 May 2026}
+% }
+
+
+% =====================================================================
+% [ADD] New row for Table~\ref{tab:rt-sources}
+% Insert after the mestre2020 row, before arkhipova2023
+% =====================================================================
+
+Toro~\cite{toro2026}
+  & 107{,}078 SPIRE representative genomes $\rightarrow$ 1{,}286 candidates;
+    1{,}928 reference RTs~\cite{mestre2020}
+  & Profile HMM, phylogenetic placement
+  & First large-scale metagenomic retron survey. \emph{Abandons RT0}: the span
+    is RT1--RT7 throughout, with no statement of the change and no mention of
+    RT0. The span is realised as the 203 alignment columns surviving a
+    ${>}50\%$ gap filter. Detection uses a general HMM built on the full
+    reference sequences, so two coordinate systems operate in one study
+  & \operational\tnote{f} \\[2pt]
+
+% [ADD] corresponding tablenote, after note [e]
+% \item[f] A criterion is published, but it is not a criterion about the
+%   partition: a generic gap-occupancy threshold produces a block of columns
+%   which is then named after RT1--RT7. No source is cited for the RT1--RT7
+%   span, and no reason is given for the departure from RT0--RT7.
+
+
+% =====================================================================
+% [REPLACE] Final paragraph of \subsection{Origin and propagation of the
+% partition}, from ``Toro \textit{et al.}~\cite{toro2019} and Rodr{\'i}guez
+% Mestre...'' through ``...applied to the boundary question.''
+% =====================================================================
+
+Toro \textit{et al.}~\cite{toro2019} and Rodr{\'i}guez Mestre \textit{et
+al.}~\cite{mestre2020} then use ``RT0--7'' as a given. Both name individual
+elements when locating the retron-specific regions---region~X between RT2 and
+RT3, region~Y within RT7---and neither refers to RT1 anywhere in its published
+main text.
+
+Two departures from this pattern of inheritance have since occurred, and they
+are of different kinds. The first is the myRT reference package~\cite{sharifi2022},
+whose profile models are built on the Pfam RVT\_1 domain (PF00078) rather than
+on the RT0--RT7 span; a coordinate system independent of the partition has
+therefore been in use since 2022, though it has not been applied to the
+boundary question. The second is more consequential, because it comes from
+within the retron lineage itself. Toro~\cite{toro2026} surveys 107{,}078 SPIRE
+representative genomes using the 1{,}928-sequence reference set
+of~\cite{mestre2020}, and throughout refers to the \emph{RT1--RT7} motif core:
+as the basis of the ``RT domain completeness'' criterion used to assign
+confidence tiers, and as the region retained for the maximum-likelihood
+reference tree. RT0 does not appear in the paper. No reason is given for its
+removal, and no source is cited for the RT1--RT7 span that replaces it. The
+element whose provenance in the retron literature this chapter traces has
+been dropped by the lineage that carried it, without comment.
+
+The manner of the replacement matters as much as the fact of it. The span is
+not delimited by inspection, as in~\cite{xiong1990}, nor adopted silently, as
+in~\cite{toro2014,toro2019,mestre2020}. It is stated as ``the 203 positions
+corresponding to the conserved RT1--RT7 motif core'', obtained ``by removing
+columns containing more than 50\% gaps''~\cite{toro2026}. That sentence admits
+two readings. Under the first, the gap filter alone produces the 203 columns,
+which are then named after RT1--RT7---in which case the partition is a label
+applied to the output of a generic alignment filter, and the boundary is
+wherever gap occupancy happens to fall for the particular set of sequences
+aligned. Under the second, the region was first delimited as RT1--RT7 by
+unstated means and the gap filter applied within it, in which case the
+boundary is again inherited and again without criterion. The two readings
+imply different objects, and neither supplies a criterion specific to the
+partition. This is recorded in Table~\ref{tab:rt-sources} as a distinct
+provenance category, \operational, rather than as inheritance: a criterion is
+published; it is simply not a criterion about the elements it names.
+
+The consequence is a coordinate system that is now internally plural. In
+\cite{toro2026}, detection is performed with a general profile HMM built from
+the full 1{,}928 reference sequences, while phylogenetic inference is
+performed on the 203-column block. Two spans are therefore in use in a single
+study for two different tasks, without the relationship between them being
+stated. Section~\ref{sec:rt-partition-elements} argues that this is the right
+instinct---the elements are not equally transferable and different analyses
+have different requirements---but it is exercised here implicitly rather than
+as a stated design choice, and the mapping between the two systems is not
+published.
+
+
+% =====================================================================
+% [REPLACE] The paragraph beginning ``A related inconsistency affects any
+% attempt to reproduce these datasets.'' --- keep it, and append the
+% following continuation.
+% =====================================================================
+
+The threshold has since changed form again, and this time its behaviour is
+reported. Toro~\cite{toro2026} replaces the length criterion with a bit-score
+criterion: hits from a general retron RT HMM are filtered at an E-value of
+$1\times10^{-10}$, yielding 31{,}280 initial hits, and sequences scoring at
+least 160 bits are retained as candidates ($n = 1{,}319$). The cutoff is
+calibrated against the reference set itself, and the calibration is published:
+the lowest-scoring reference sequence reaches 114.5 bits, and 195 of the
+1{,}928 reference sequences ($10.1\%$) fall below the 160-bit cutoff,
+predominantly from type~VI ($n = 91$), type~I-B2 ($n = 36$), type~I-B1 ($n =
+34$) and type~IV ($n = 20$). The author states that the threshold is a
+conservative trade-off and will underrepresent the most divergent lineages.
+This is a material improvement on the position described above: a filter is
+applied to a stated object, and the fraction of the reference set it excludes
+is quantified rather than left to be inferred. It should be read as such. What
+it does not do is bear on the boundary question. A score threshold on a
+profile built from whole reference sequences says nothing about where the
+elements of the partition begin and end, and the 1{,}928-sequence reference
+set to which it is applied was itself assembled under the ${\ge}200$-amino-acid
+filter applied to the RT0--7 span by~\cite{toro2019,mestre2020}. That filter
+therefore remains upstream of every result in~\cite{toro2026}, defined on a
+span the analysis no longer uses.
+
+
+% =====================================================================
+% [REPLACE] The RT0 paragraph in \subsection{Element-by-element}, from
+% ``RT0 is the element the retron literature reports in and cannot align.''
+% Replace the final sentence and append.
+% =====================================================================
+
+% ... keep the paragraph as written up to and including:
+% ``...therefore measures something whose starting point is undefined for a
+% quarter of the dataset.''
+% then append:
+
+The span has since been redrawn to exclude it. Toro~\cite{toro2026} works
+throughout with an RT1--RT7 core and does not mention RT0 at any point. Read
+against the evidence assembled above---absent from the original
+partition~\cite{xiong1990}, added from a different retroelement
+literature~\cite{malik1999,zimmerly2001}, delimited in LtrA only as the
+content of a proteolytic fragment~\cite{blocker2005}, excluded from every
+published transferability count~\cite{simon2008}, and not alignable with the
+group~II reference in any retron representative of that
+study~\cite{simon2008}---the removal is unsurprising. What is notable is that
+it is unannounced. An element that entered the retron framework without a
+stated source has left it without a stated reason, and in between it
+determined which sequences passed the length filter that defines the reference
+set still in use. Neither its entry nor its exit was accompanied by a claim
+that could be checked, which is the pattern this chapter documents rather than
+an isolated lapse.
+
+
+% =====================================================================
+% [EDIT] RT1 discussion, \subsection{Element-by-element}
+% Amend the sentence recording that RT1 is unmentioned in the retron literature
+% =====================================================================
+
+% Current: ``...no reference to RT1 in \cite{toro2019,mestre2020} (inspection
+% of the published text)''
+% Suggested replacement:
+
+no reference to RT1 in~\cite{toro2019,mestre2020} (inspection of the published
+main text); named in~\cite{toro2026} as the opening element of the RT1--RT7
+core, without a stated start position or a cited source for the span
+
+
+% =====================================================================
+% [EDIT] Table~\ref{tab:rt-elements}: amended rows
+% =====================================================================
+
+RT0 / NTE & Extended fingers
+  & Absent from~\cite{xiong1990}; described in non-LTR RTs~\cite{malik1999,zimmerly2001};
+    within a 10\,kDa N-terminal proteolytic fragment of LtrA (M1--R85),
+    conserved Ala39~\cite{blocker2005}; \emph{not alignable with the group~II
+    reference in any of the three retron or three DGR
+    representatives}~\cite{simon2008}; excluded from all published
+    transferability counts~\cite{simon2008}; \emph{excluded from the span
+    altogether in}~\cite{toro2026}, without comment
+  & Loop within an N-terminal extension~\cite{yang2025}. Helical character
+    predicted in~\cite{blocker2005} \\[3pt]
+
+% ---------------------------------------------------------------------
+
+Region X$^{b,c}$ & Between RT2 and RT3 &
+  \motif{NAXXH}, identified in 59\% of 102 retron/retron-like sequences; His
+  100\%, Ala 87\%, Asn 62\% conserved~\cite{toro2014}; suggested to be required
+  for initiation or catalysis~\cite{mestre2020}; \emph{used as a per-sequence
+  completeness filter} in~\cite{toro2026}, where 184 of 207 protease-less
+  type~XI-like candidates (88.9\%) are reported to retain it, still with no
+  matching rule stated &
+  Not resolved \\[3pt]
+
+Region Y$^{b,c}$ & Within RT7 &
+  \motif{VTG}, Gly most conserved; 47\% of the same set, with a further 26\%
+  carrying an I/L variant at the first position~\cite{toro2014}; implicated in
+  targeting the RT to its cognate \textit{msr}~\cite{inouye1999,mestre2020};
+  applied jointly with region~X as a filter in~\cite{toro2026} &
+  Not resolved \\
+
+
+% =====================================================================
+% [ADD] Optional short paragraph for the close of
+% \subsection{Element-by-element}, or for the chapter conclusion.
+% This is the observation that generalises the chapter.
+% =====================================================================
+
+One asymmetry in current practice is worth recording, because it shows that
+the distinction this chapter needs is already available to the field.
+Toro~\cite{toro2026} states explicitly that retron types lacking
+experimentally validated \textit{msr}/\textit{msd} structures were not
+represented in the covariance-model panel, and that the absence of a hit in
+those groups should not be read as evidence for the absence of an associated
+ncRNA. That is precisely the distinction Simon and Zimmerly~\cite{simon2008}
+draw for the protein elements when they note that sufficient residues are
+present to correspond to the domains that cannot be aligned. The caution is
+applied to the RNA and not to the partition: an element that cannot be aligned
+is dropped from the span, while an RNA that cannot be detected is flagged as
+undetected. Nothing in the evidence supports treating the two cases
+differently.
+
+
+% =====================================================================
+% [ADD] Reference figures to quote when citing \cite{toro2026}
+% =====================================================================
+% Panel of 28 type-specific HMMs; per-group thresholds set at
+%   (pos_min + neg_max)/2, ranging 177.2 bits (type I-B2) to 317.5 bits (clade11-A).
+% Reference tree: MAFFT v7; 203 columns; IQ-TREE 2 v2.3.2; ModelFinder selected
+%   Q.pfam+F+I+G4; 1,000 ultrafast bootstrap replicates.
+%   (cf. \cite{mestre2020}: MAFFT + FastTree, WAG, discrete gamma, 20 categories.)
+% Placement: MAFFT --add, EPA-ng, gappa, iTOL v6.
+% Type XI-like tree (Fig. 5): IQ-TREE2, LG+I+G4, 1,000 UFBoot, from
+%   ``an alignment of the conserved RT domain'' --- span not specified, and not
+%   stated to be the same 203 columns.
+% Confidence tiers: 934 high (72.6%), 25 borderline (1.9%), 327 low (25.4%)
+%   of 1,286 candidates. Criterion (ii), ``near-complete RT1--RT7 architecture'',
+%   is not operationalised anywhere in the Methods: no threshold, no definition
+%   of near-complete.
+% Type XI-like: n = 232, 72% low-confidence; 207/232 (89.2%) lack the
+%   C-terminal protease; 170/232 in Bacteroidota.
+% Fig. 1 legend: outlying EPA-ng placements attributed to ``uncertainty in the
+%   placement of highly divergent RT core sequences''.
+% Minor internal inconsistencies in candidate counts: TXI_C2like 120 (Methods)
+%   vs 126 (Results); TXI_noncan_h 28 vs 29; msr/msd hits 37 (text) vs 39
+%   (Fig. 6B legend). Cite one consistently.
+
+
+% =====================================================================
+% =====================================================================
+%  SECOND ROUND: additions following Supplementary Table S1
+%  of \cite{toro2026} (HMM calibration thresholds, 29 profiles)
+% =====================================================================
+% =====================================================================
+
+
+% ---------------------------------------------------------------------
+% [EDIT] Footnote on supplementary material, \subsection{Origin...}
+% Current text: ``...since a definition could reside in supplementary
+% material.''  Extend the same convention to \cite{toro2026} with a
+% checked statement.
+% ---------------------------------------------------------------------
+
+% Suggested footnote text for the \cite{toro2026} discussion:
+%
+% The same convention is applied here to~\cite{toro2026}: the statement is
+% that no definition of the RT1--RT7 span appears in the published main text.
+% Supplementary Table~S1 of that work reports the calibration of the
+% type-specific profiles (self-hit minima, cross-hit maxima, per-group
+% thresholds and separation status) and contains no element coordinates and
+% no reference to RT0.
+
+
+% =====================================================================
+% [ADD] New paragraph for \subsection{Element-by-element}, following the
+% RT0 discussion. This is the point at which the span enters the paper's
+% own inferential chain.
+% =====================================================================
+
+The span is not merely a preprocessing choice in~\cite{toro2026}; it is named
+as an input to the classification. Candidates are assigned to confidence tiers
+on three stated criteria: HMM detection strength relative to the group
+threshold, ``RT domain completeness, based on conservation of the canonical
+RT1--RT7 motif core'', and consistency of phylogenetic placement. The second
+criterion is the span. It is not operationalised anywhere in the published
+methods---no threshold is given for completeness, no definition of
+``near-complete'' is supplied, and no rule is stated for combining the three
+criteria into a tier. The tiers in turn supply the ``confidence support''
+column of the novelty evidence matrix, which contributes to the composite
+score by which TXI\_C2like and TXI\_noncan\_h are selected as candidate novel
+lineages. An element boundary that has never been derived therefore enters,
+under a criterion that is never defined, the chain of inference leading to the
+paper's principal claim.
+
+Two features of Supplementary Table~S1 bear on whether the contribution of
+that criterion can be recovered after the fact. The first is that the
+supplementary legend defines the tiers by score alone: high-confidence as a
+score at or above the group threshold, low-confidence as a score of at least
+160 bits but below it, and borderline as a score falling within the overlap
+between the self-hit and cross-hit distributions. Under that definition RT
+domain completeness plays no part in the tier at all, which is not what the
+main text states. The two descriptions cannot both be operative, and nothing
+published distinguishes them. The second is that the borderline assignments do
+not follow the supplementary definition either. All 25 borderline candidates
+reported in the study fall in groups whose profiles are labelled as showing
+clean separation (type~I-B2, $n = 12$; type~II-A2 and type~X, $n = 3$ each;
+type~III-A4 and type~I-C3, $n = 2$ each; type~V, type~VII-A1 and type~VII-A2,
+$n = 1$ each), and none falls in any of the groups labelled as overlapping.%
+\todo{REG-07. Highest-risk claim in this section and the load-bearing one.
+Derived by joining the Separation column of Supp.\ Table~S1 to the
+borderline column of main Table~1. A single misread separation label or
+borderline count flips it. Re-derive from the source supplementary file
+before submission; do not cite from the extracted text.}
+Since an overlap zone exists by construction only where the cross-hit maximum
+exceeds the self-hit minimum, the observed assignment is the inverse of the
+stated rule. Whatever produced the tiers, it is not the procedure described.
+The consequence for the present chapter is narrow but firm: the weight carried
+by the RT1--RT7 span in the classification of~\cite{toro2026} cannot be
+determined from the published record, in either direction.
+
+
+% =====================================================================
+% [ADD] Footnote material --- criticisms of the classifier rather than of
+% the partition. Recommended as a single footnote, not as body text, to
+% keep the chapter on its subject.
+% =====================================================================
+
+% \todo{REG-01} Supplementary Table~S1 of~\cite{toro2026} reports 29 type-specific profiles,
+% whereas the main text refers to a panel of 28 in each of the four places it
+% is mentioned; the discrepancy is type~VIII, which is present in the panel,
+% recovers no candidates, and does not appear in the summary table of results.
+% \todo{REG-08}
+% By the definition given in the same table---an overlap zone wherever the
+% cross-hit maximum exceeds the self-hit minimum---17 of the 29 profiles fall
+% in the overlap zone and 12 show clean separation; the totals row of the table
+% states 16 and 13.  \todo{REG-02, REG-03} Each individual row is consistent with its own values. For
+% the 17 overlapping profiles the classification threshold is the midpoint
+% between two distributions that are not separated, and the main text reports
+% only the range of thresholds (177.2--317.5 bits) rather than their
+% separability. Type~XI is among the overlapping groups, and is the group from
+% which both candidate novel lineages are drawn. Type~VI is the extreme case:
+% its self-hit minimum, 162.9 bits, lies barely above the 160-bit general
+% screening cutoff, 91 of its reference sequences fall below that cutoff, and
+% its profile is in the overlap zone---yet 97\% of the type~VI candidates
+% recovered from SPIRE are classified as high-confidence, which is what
+% survivorship under a stringent screen would predict. Finally, the 195
+% reference sequences excluded by the 160-bit screen decompose across seven
+% groups (type~VI 91, type~I-B2 36, type~I-B1 34, type~IV 20, type~V 10,
+% type~II-A1 2, type~VIII 2), of which the main text names four;  \todo{REG-05, REG-06} and no
+% per-group reference totals are published, so the fraction of each group lost
+% to the screen cannot be computed. That last omission is structurally the
+% same as the one described in Section~\ref{sec:rt-partition-origin} for the
+% 200-amino-acid threshold: a filter reported against an object whose extent
+% is not stated.
+
+
+% =====================================================================
+% [ADD] Verified figures, second round. All recomputed from
+% Supplementary Table S1 and main Table 1 of \cite{toro2026}.
+% Values below were checked against the table's own definitions;
+% confirm against the source supplementary file before citing.
+% =====================================================================
+% Panel size: 29 profiles (supp.) vs 28 (main text, four occurrences).
+% Separation, recomputed from pos_min / neg_max: Overlap 17, Clean 12.
+%   Printed totals row: Overlap 16, Clean 13. Every row label is itself correct.
+% Threshold formula (pos_min + neg_max)/2 reproduces every printed cell.
+%   clade11-A cell reads 317,4; range row and main text give 317.5 (=317.45).
+%   Supplementary table uses decimal commas; main text uses points.
+% Borderline candidates: 25 total, 25 in Clean groups, 0 in Overlap groups.
+% Groups with zero recovered candidates: typeVIII (in panel, absent from Table 1).
+% Refs below the 160-bit screen: 91 + 36 + 34 + 20 + 10 + 2 + 2 = 195 (10.1%),
+%   across typeVI, typeI-B2, typeI-B1, typeIV, typeV, typeII-A1, typeVIII.
+% No per-group reference denominators are published.
+% clade2_Ec107like is annotated "new HMM in pipeline v2"; no pipeline
+%   versioning is described in the main text.
+% Threshold height does NOT explain confidence composition:
+%   Pearson r(threshold, % high-confidence) = -0.28 across the 21 groups with
+%   >= 10 candidates. Do not assert that the tier is an artefact of threshold
+%   placement; it is not supported.
+
+
+% =====================================================================
+% =====================================================================
+%  VERIFICATION REGISTER
+%
+%  Every quantity below was RECOMPUTED, not read directly off the page.
+%  Source for all of it: text extracted from the main preprint PDF and
+%  from Supplementary Table S1 (10.64898/2026.05.14.725207, v1,
+%  14 May 2026).
+%
+%  GLOBAL CAVEAT: Supplementary Table S1 uses the comma as decimal
+%  separator while the main text uses the point. Comma-decimal tables are
+%  a known failure mode for PDF text extraction. Treat EVERY numeric cell
+%  taken from S1 as provisional until re-derived from the source
+%  supplementary file (ideally the XLSX/CSV, not the rendered PDF).
+%
+%  Anything NOT listed here is either quoted verbatim with a line number
+%  (low risk) or is interpretation rather than measurement (defend it,
+%  do not verify it).
+% =====================================================================
+%
+% REG-01  Panel size = 29 profiles.
+%         Method: counted label rows in S1; cross-checked against the
+%         table title and the TOTALS row, both of which state 29.
+%         Main text states 28 in four separate places.
+%         Fails if: a row was lost in extraction.
+%         Status: [ ] re-derived
+%
+% REG-02  Separation recount: Overlap 17, Clean 12.
+%         Method: applied the table's own definition (overlap iff
+%         neg_max > pos_min) to all 29 rows.
+%         Printed TOTALS row states Overlap 16, Clean 13.
+%         Every individual row LABEL agreed with its own values; only the
+%         totals row disagrees.
+%         Fails if: any single pos_min or neg_max cell misread.
+%         Status: [ ] re-derived
+%
+% REG-03  Threshold formula reproduces all 29 printed cells.
+%         Method: (pos_min + neg_max)/2 per row, compared to the printed
+%         threshold column. This is the strongest internal consistency
+%         check available, and it is what makes REG-02 credible: if the
+%         extracted pos_min/neg_max values were corrupted, the formula
+%         would not reproduce the printed thresholds.
+%         Status: [ ] re-derived
+%
+% REG-04  clade11-A midpoint = 317.45.
+%         The S1 cell reads 317,4; the S1 range row and the main text
+%         both give 317.5. Rounding convention only. Do not build an
+%         argument on this; mention in passing or omit.
+%         Status: [ ] re-derived
+%
+% REG-05  Column G sums to 195: 91 + 36 + 34 + 20 + 10 + 2 + 2.
+%         Reconciles exactly with the main text's stated 195 (10.1% of
+%         1,928), which is independent corroboration that the seven G
+%         cells were extracted correctly.
+%         Status: [ ] re-derived
+%
+% REG-06  Seven groups contribute to the 195; the main text names four
+%         (type VI, I-B2, I-B1, IV = 181 of 195), omitting type V (10),
+%         type II-A1 (2) and type VIII (2).
+%         Method: set difference between S1 column G and the main text
+%         enumeration at l. 129-130.
+%         Status: [ ] re-derived
+%
+% REG-07  *** HIGHEST RISK. LOAD-BEARING. ***
+%         All 25 borderline candidates fall in Clean-separation groups;
+%         zero fall in Overlap groups.
+%         Method: join S1 Separation column to the borderline column of
+%         main Table 1. Contributing groups: type I-B2 (12), type II-A2
+%         (3), type X (3), type III-A4 (2), type I-C3 (2), type V (1),
+%         type VII-A1 (1), type VII-A2 (1) = 25, matching the stated
+%         total of 25 borderline candidates.
+%         This is the inverse of the S1 legend, which defines borderline
+%         as a score within the overlap zone -- a zone that exists by
+%         construction only in Overlap groups.
+%         Fails if: ONE separation label or ONE borderline count is
+%         misread. There is no internal cross-check on this one.
+%         RE-DERIVE THIS FIRST.
+%         Status: [ ] re-derived
+%
+% REG-08  type VIII: present in the 29-profile panel, recovers zero
+%         candidates, absent from main Table 1 (28 rows).
+%         Method: set difference, S1 labels vs main Table 1 labels.
+%         Status: [ ] re-derived
+%
+% REG-09  Pearson r(threshold, % high-confidence) = -0.275, over the 21
+%         groups with >= 10 candidates.
+%         NEGATIVE RESULT. Threshold height does NOT explain the
+%         confidence composition. Recorded so the claim is not made by
+%         accident; it is not supported.
+%         Status: [ ] re-derived
+%
+% REG-10  Mean % high-confidence: Overlap groups 79.4 (n=16),
+%         Clean groups 56.6 (n=5).
+%         Direction is opposite to what the calibration design implies.
+%         *** DO NOT PUT THIS IN THE THESIS AS IT STANDS. *** n=5 on the
+%         Clean side, dominated by small groups (type I-C3 n=14, type X
+%         n=16, type VII-A2 n=4). Suggestive only. If you want to use it,
+%         weight by group size and report a confidence interval, or drop it.
+%         Status: [ ] re-derived
+%
+% ---------------------------------------------------------------------
+%  RECONCILIATION CHECKS THAT PASSED (no action needed, recorded for the
+%  methods appendix if you want to show the audit was done)
+% ---------------------------------------------------------------------
+% Main Table 1 row sums: N = 1,286; high = 934; borderline = 25;
+%   low = 327. All four match the stated totals.
+% Mestre reference set: 1,912 + 16 validated = 1,928. Consistent across
+%   \cite{mestre2020} and \cite{toro2026}.
+%
+% ---------------------------------------------------------------------
+%  KNOWN INTERNAL INCONSISTENCIES IN \cite{toro2026} (read off the page,
+%  not computed -- but pick one value each and cite consistently)
+% ---------------------------------------------------------------------
+% TXI_C2like:      120 loci (Methods, de novo ncRNA) vs 126 (Results, Fig. 4B)
+% TXI_noncan_h:     28 loci (Methods, Abstract)      vs  29 (Results, curated)
+% TXI_C2like ncRNA: 37 loci (Results text)           vs  39 (Fig. 6B legend)
+% Panel size:       28 profiles (main text, x4)      vs  29 (Supp. Table S1)
+% clade11-A thr:    317,4 (S1 cell)                  vs 317.5 (S1 range row,
+%                                                        and main text)
+%
+% ---------------------------------------------------------------------
+%  NOT VERIFIABLE QUANTITIES -- these are arguments, defend them, do not
+%  "check" them
+% ---------------------------------------------------------------------
+% - The two readings of the "203 positions ... by removing columns
+%   containing more than 50% gaps" sentence.
+% - That no reason is given for the removal of RT0 (an absence claim over
+%   the published main text; scope it explicitly, as you already do for
+%   \cite{toro2019,mestre2020}).
+% - The survivorship reading of type VI's 97% high-confidence fraction.
+% - That the main-text and supplementary tier definitions are incompatible.
+% - Simon & Zimmerly's 157 alignable retron characters vs the 203-column
+%   block. DELIBERATELY NOT A COMPARISON: different quantities (cross-class
+%   alignability to a group II reference vs within-retron gap occupancy).
+%   State the gap; do not call it a contradiction.
+%
+% ---------------------------------------------------------------------
+%  STILL TO CHECK IN THE SUPPLEMENT
+% ---------------------------------------------------------------------
+% [ ] Supp. Figure S1 (workflow diagram). Last plausible home for an
+%     RT1-RT7 coordinate definition. If it shows the detection HMM and the
+%     phylogeny alignment as separate branches, that confirms the
+%     two-coordinate-system point directly rather than by inference.
+% [ ] Supp. Table S2 (per-candidate table). Does it carry per-sequence
+%     domain coordinates or a completeness score? If so, criterion (ii)
+%     may be recoverable after all and the REG-07 argument needs softening.
+% [ ] Supp. Table S3 (novelty scoring). How the five criteria combine into
+%     the composite score.
+% [ ] Per-group reference sequence totals. Without denominators the
+%     fraction of each group lost to the 160-bit screen cannot be computed.
+% =====================================================================

@@ -1,0 +1,599 @@
+
+% Chapter 4 File
+
+\chapter{Reverse Transcriptases: Origin, Boundaries and Classification}
+\label{chapter3}
+\thispagestyle{empty}
+
+% https://claude.ai/chat/1baca69a-335b-4adc-a4db-be125238b3ba
+
+% c41c63d1-b030-4f01-8e91-b3a94f2dbfd9 (17 references) with 9745bb59-0cbf-48c2-990d-ff737eb0d487 
+
+The framework set out in Section~\ref{sec:current-classification} is the one within which
+retrons are currently described, and it is a considerable achievement: it identified a third
+component, established its association with the RT under a statistic designed to be blind to
+function and genomic context, and did so with controls capable of failing. It is also a
+framework built on 1{,}928 sequences, in which five of the eleven RT clades contain no
+experimentally characterised member and three yield no recoverable \textit{msr}--\textit{msd}
+structure. For those clades the designation \emph{retron} rests on the RT sequence alone ---
+on the presence of regions X and Y --- and therefore on the assumption that the features
+originally used to define retron RTs are the features that in fact delimit them. Can we
+confidently say those are retrons?
+
+The difficulty runs deeper than taxonomic coverage, because most of the quantities on which
+the classification depends are inherited rather than measured. The RT0--RT7 partition that
+defines the alignable core was fixed by earlier work and carries no uncertainty estimate;
+clade delimitation followed node support rather than an explicit algorithmic rule; the
+thresholds of the association pipeline were chosen once and never varied; and enough
+parameters go unstated that the analysis cannot be reproduced as run. None of this makes the
+conclusions wrong. It makes them untested, and it means that a result and the convention that
+produced it are at present indistinguishable.
+
+% This chapter separates the two. Section~\ref{sec:rt-partition} re-examines the RT0--RT7
+% partition, asking what sequence and structural evidence actually supports boundaries that are
+% otherwise transmitted by citation. [Section~X] revisits clade delimitation under an explicit
+% criterion, and [Section~Y] asks what the association analysis yields at present-day scale and
+% under varied thresholds. The aim is not to discard the classification but to determine which
+% of its elements survive once the decisions behind them are stated, varied, and given
+% confidence intervals.
+
+
+% \section{Provenance and physical basis of the RT0–RT7 partition}
+
+
+% =====================================================================
+%  Thesis section: the RT0-RT7 partition
+%  Drop-in .tex. Requires in the preamble:
+%    \usepackage{booktabs, tabularx, array, ragged2e, amssymb}
+%    \usepackage{threeparttable}      % table notes tied to the table
+%    \usepackage{rotating}            % sidewaystable (landscape)
+%    \usepackage{longtable}           % Table 2 may break across pages
+%    \usepackage[table]{xcolor}       % only for \rowcolor, optional
+%    \usepackage{tikz}                % only for the optional provenance chain
+%    \usetikzlibrary{positioning, arrows.meta}
+%
+%  Bibliography keys used here are defined in rt_partition_refs.bib
+% =====================================================================
+
+% ---- local helpers (put in the preamble if you prefer) ---------------
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newlength{\rtwd}   % usable width of a 4-column table with @{} on both ends
+\setlength{\rtwd}{\dimexpr\textwidth-6\tabcolsep\relax}
+\newcommand{\derived}{\textsc{derived}}          % boundaries determined in that work
+\newcommand{\inherit}{\textsc{inherited}}        % taken over, with a source cited
+\newcommand{\noprov}{\textsc{inherited}$^{\ast}$}% taken over, no source cited
+\newcommand{\motif}[1]{\texttt{#1}}
+% ---------------------------------------------------------------------
+
+\section{The RT0--RT7 partition: inherited boundaries, sequence evidence
+         and structural correlates}
+\label{sec:rt-partition}
+
+% ---------------------------------------------------------------------
+\subsection{Origin and propagation of the partition}
+\label{sec:rt-partition-origin}
+
+The anatomy of the reverse transcriptase (RT) domain in prokaryotic retroelements rests
+on a descriptive framework that has been remarkably stable since it was first proposed.
+Xiong and Eickbush~\cite{xiong1990} aligned 82 retroelement RTs and identified seven
+peptide regions---domains~1--7, comprising 178 amino acids common to all elements---and
+it is this partition that almost every subsequent treatment inherits. Their scheme does
+\emph{not} include RT0; that upstream element was described later in the non-LTR
+retroelement literature~\cite{malik1999,zimmerly2001} and was integrated into the group~II
+intron framework by Blocker \textit{et al.}~\cite{blocker2005}, who combined limited
+proteolysis, Edman degradation and mass spectrometry with secondary-structure prediction
+and homology modelling to produce the reference anatomy of the \textit{Lactococcus lactis}
+Ll.LtrB maturase LtrA. That work placed RT1--RT7 within the fingers and palm subdomains of
+the canonical polymerase fold, assigned RT0 to an extended fingers region, located
+domain~X downstream of RT7 in the position corresponding to the thumb and part of the
+connection domain of HIV-1 RT, and described the lineage-specific insertions 2a, 3a, 4a
+and 7a relative to HIV-1 RT. Of these, 2a is not original to that work either: it
+entered the framework alongside RT0 and from the same
+sources~\cite{malik1999,zimmerly2001}, and both are shared by only a subset of RT
+classes rather than being general features of the fold~\cite{simon2008}.
+
+Table~\ref{tab:rt-sources} summarises what each source contributes and, in its final
+column, records whether the element boundaries were determined in that work or adopted
+from earlier literature. That column is an assessment made here by reading the published
+methods; it is not a classification any of these authors apply to their own work. On this
+reading the pattern is consistent: the boundaries were delimited by inspection of a
+curated alignment~\cite{xiong1990}, no algorithmic criterion was published with them, and
+the retron-specific lineage on which this thesis builds carries the span forward without
+re-deriving it. The sole methodological statement in Toro and
+Nisa-Mart{\'i}nez~\cite{toro2014} is that ``the amino-acid region corresponding to RT
+domains 0 to 7'' was extracted---no criterion, and no source cited for the
+span.\footnote{Neither Xiong and Eickbush~\cite{xiong1990} nor Blocker
+\textit{et al.}~\cite{blocker2005} appears in its reference list, although
+Mohr \textit{et al.}~\cite{mohr1993} is cited for domain~X. The absence is therefore
+specifically of a source for the RT0--RT7 span, not of the Lambowitz-lab literature
+generally. Stated as an absence from the published main text, since a definition could
+reside in supplementary material.} Toro \textit{et al.}~\cite{toro2019} and
+Rodr{\'i}guez Mestre \textit{et al.}~\cite{mestre2020} then use ``RT0--7'' as a given.
+Both name individual elements when locating the retron-specific regions---region~X
+between RT2 and RT3, region~Y within RT7---and neither refers to RT1 anywhere in its
+published main text. The one exception to this pattern of inheritance is the myRT
+reference package~\cite{sharifi2022}, whose profile models are built on the Pfam RVT\_1
+domain rather than on the RT0--RT7 span; a coordinate system independent of the
+partition is therefore already in use, though it has not been applied to the boundary
+question.
+
+A related inconsistency affects any attempt to reproduce these datasets. The
+200-amino-acid minimum applied throughout this literature does not refer to a consistent
+object: \cite{toro2014} discards proteins shorter than 200~aa as probable fragments,
+applying the threshold to the \emph{full protein}, whereas~\cite{toro2019} selects
+``an RT domain (RT0-7) of at least 200 amino acids'', applying it to the \emph{extracted
+span}, a convention the retron datasets~\cite{mestre2020} inherit. The two thresholds are
+not interchangeable---a domain of 200~aa can sit within a protein several times that
+length---so the same nominal filter admits different sequence sets depending on which
+paper is being followed. Either convention is defensible; conflating them is not. The
+consequences are not confined to reproducibility: as Section~\ref{sec:rt-partition-elements}
+shows, the span to which the threshold is applied opens with an element that has no
+published alignable extent in retrons.
+
+% =====================================================================
+%  TABLE 1 -- source / evidence / provenance
+%  Landscape. If your thesis is one-sided and you dislike sidewaystable,
+%  swap \begin{sidewaystable} -> \begin{table} and use \footnotesize.
+% =====================================================================
+\begin{sidewaystable}
+\centering
+\begin{threeparttable}
+\caption[Primary sources for the RT0--RT7 partition]{%
+  \textbf{Primary sources for the RT0--RT7 partition, by class of evidence.}
+  The final column distinguishes work in which element boundaries were determined from
+  work in which they were adopted, and---among the latter---whether a source for the span
+  is cited. That assignment is an assessment made here from the published methods, not a
+  characterisation offered by the authors cited.}
+\label{tab:rt-sources}
+\footnotesize
+\begin{tabular}{@{}L{2.9cm} L{3.1cm} L{2.2cm} L{6.4cm} L{2.6cm}@{}}
+\toprule
+\textbf{Source} & \textbf{Material / scale} & \textbf{Evidence} &
+\textbf{Contribution to the partition} & \textbf{Boundaries} \\
+\midrule
+
+Xiong \& Eickbush~\cite{xiong1990}
+  & 82 retroelement RTs
+  & Alignment
+  & Origin of the partition: domains 1--7, 178 conserved aa. RT0 not defined
+  & \derived\tnote{a} \\[2pt]
+
+Malik \textit{et al.}~\cite{malik1999}; Zimmerly \textit{et al.}~\cite{zimmerly2001}
+  & non-LTR retroelements
+  & Alignment
+  & RT0 described upstream of domain 1
+  & \derived \\[2pt]
+
+Blocker \textit{et al.}~\cite{blocker2005}
+  & LtrA (Ll.LtrB maturase)
+  & Proteolysis, Edman, MS; homology model
+% NEW
+    & Reference anatomy. RT1--RT7 in fingers and palm; RT0 within a 10\,kDa
+      N-terminal proteolytic fragment (M1--R85); RT0--RT7 within M1--R364;
+      domain~X = thumb and part of the connection, downstream of RT7 and
+      \emph{outside} the RT0--RT7 span; insertions 2a, 3a, 4a, 7a
+    & \inherit~\cite{xiong1990,malik1999,zimmerly2001} \\[2pt]
+
+Simon \& Zimmerly~\cite{simon2008}
+  & 1{,}021 RTs; 20 groups
+  & Alignment, comparative
+  & First quantification of transferability: alignable characters per class in domains
+    1--7 (group II 177, retron 157, DGR 179); 59-character core in domains 3--5
+    alignable across all bacterial RTs; domains 1, 2 and 7 unalignable for many
+    bacterial RTs
+  & \inherit~\cite{xiong1990}\tnote{b,d} \\[2pt]
+
+Toro \& Nisa-Mart{\'i}nez~\cite{toro2014}
+  & 742 bacterial RTs
+  & Phylogeny, motif survey
+  & Reference bacterial RT phylogeny; class-specific motifs (retron \motif{NAXXH},
+    \motif{VTG}; DGR \motif{Y(V/M)DD}; G2L4 \motif{YIDD})
+  & \noprov \\[2pt]
+
+Toro \textit{et al.}~\cite{toro2019}
+  & 198{,}760 $\rightarrow$ 9{,}141 representatives
+  & Phylogeny
+  & The dataset the retron field inherits; ``RT0-7'' used as a given
+  & \noprov \\[2pt]
+
+Rodr{\'i}guez Mestre \textit{et al.}~\cite{mestre2020}
+  & 1{,}912 retron / retron-like $+$ 16 validated
+  & Phylogeny
+  & Retron-specific reference; 11 clades; applies region~X (\motif{NAXXH},
+    between RT2 and RT3) and region~Y (\motif{VTG}, within RT7)
+  & \noprov\tnote{c} \\[2pt]
+
+Yang \textit{et al.}~\cite{yang2025}
+  & G2L4 RT, apo and DNA-bound (PDB 9D5X, 9D4S)
+  & X-ray crystallography
+  & Crystallographic resolution of the elements. RT0 is a loop within an N-terminal
+    extension; NTE/RT0, RT2a and RT3a shared with RdRPs and lost from retroviral RTs;
+    RT1 disordered in the apoenzyme
+  & \textsc{structural} \\[2pt]
+
+Arkhipova~\cite{arkhipova2023}; Gladyshev \& Arkhipova~\cite{gladyshev2011}
+  & RT superfamily
+  & Review; comparative
+  & Places prokaryotic lineages in the wider fold; AbiP2 and AbiK lack the RT thumb,
+    replaced by HEAT repeats
+  & --- \\[2pt]
+
+% NEW
+Sharifi \& Ye~\cite{sharifi2022}
+  & 1{,}844 seqs, 38 classes (FastTree placement package; the RVT-All.hmm
+    release comprises 45 models for 41 classes from 1{,}988 sequences)
+  & Profile HMM, phylogeny
+  & myRT classifier and curated reference package used throughout this work.
+    Models are built on the Pfam RVT\_1 domain (PF00078), \emph{not} on the
+    RT0--RT7 span
+  & \textsc{independent}\tnote{e} \\[2pt]
+
+Khan \textit{et al.}~\cite{khan2025}
+  & $>$100 previously untested retrons
+  & Experiment
+  & Functional readout (RT-DNA production, editing) against which sequence features are
+    tested
+  & --- \\
+
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item[$\ast$] Adopted without a cited source for the span, as far as the published main
+  text shows.
+\item[a] Delimited by inspection of the alignment; no algorithmic criterion was published,
+  and no uncertainty is attached to the boundaries.
+\item[b] Per-class character counts are, by the authors' own footnote, partly estimated by
+  comparison with group II introns where a group lacked strong similarity in one or more
+  domains.
+\item[c] Regions X and Y are attributed to earlier retron work~\cite{simon2019} rather than
+  derived. They were already in use as retron classification hallmarks in
+  2008~\cite{simon2008}, citing Lampson \textit{et al.}~\cite{lampson2005}.
+\item[d] The alignment presented spans domains 0--7, but every quantitative measure is
+  taken over domains 1--7 and the cross-class core is located in domains 3--5. No
+  transferability figure is therefore published for RT0 or 2a by the only study to
+  quantify transferability.
+\item[e] Does not adopt the RT0--RT7 partition: profile models are built on the Pfam
+  RVT\_1 domain (PF00078). An existing precedent for a coordinate system that does not
+  presuppose the partition.
+\end{tablenotes}
+\end{threeparttable}
+\end{sidewaystable}
+
+% ---------------------------------------------------------------------
+% \subsection{Element-by-element: what is supported by sequence, and what by structure}
+% \label{sec:rt-partition-elements}
+
+% Table~\ref{tab:rt-elements} reorganises the same literature by element rather than by
+% source, which is the view that matters for the boundary estimates developed in this
+% chapter. Read down the two central columns, the partition separates into three groups. The
+% catalytic core (RT3--RT5) is supported by both routes and carries the only universally
+% alignable characters. The insertions (RT2a, RT3a) and RT0 are structurally well defined but
+% poorly conserved in sequence. RT1 and RT7, the outer elements, are weak by both routes---and
+% in the case of RT1 the crystallographic evidence supplies a mechanism.
+
+% Yang \textit{et al.}~\cite{yang2025} report that RT1, which ordinarily forms two
+% antiparallel $\beta$-strands including a fingertips loop over the active site, was
+% disordered and not visible in the G2L4 apoenzyme, having been displaced by an RT3a plug
+% occupying the active site; on DNA binding, extrusion of that plug allowed RT1 to re-form the
+% expected strands. RT1 is therefore not a static block but a conformationally dynamic element
+% whose order depends on the catalytic state of the enzyme. Yang \textit{et al.} also report the limit of this mechanism: in group~II intron
+% RT apoenzymes obtained with constructs lacking a thumb (PDB 5HHJ, 5HHL) the
+% shorter RT3a, which lacks a 9-amino-acid insertion present in G2L4, does not
+% displace the RT1 strands, which remain ordered over the active site. They
+% describe the insertion as a unique adaptation of G2L4. The displacement
+% mechanism is therefore lineage-specific and does not by itself account for the
+% unalignability of domain~1 across bacterial RTs reported
+% earlier~\cite{simon2008}. Two readings remain open: that RT1 is conformationally
+% labile in a way only sometimes captured, or that the sequence and structural
+% weaknesses have separate causes. Distinguishing them requires tabulating
+% unmodelled RT1 residues across deposited prokaryotic RT structures, which is
+% done in Section~\ref{sec:results-rt1}. Neither reading is assumed here.
+
+% ---------------------------------------------------------------------
+\subsection{Element-by-element: what is supported by sequence, and what by structure}
+\label{sec:rt-partition-elements}
+
+Table~\ref{tab:rt-elements} reorganises the same literature by element rather than by
+source, which is the view that matters for the boundary estimates developed in this
+chapter; Table~\ref{tab:rt-occupancy} records, for the one published alignment in which
+the partition is applied across classes, which elements could actually be aligned in
+each. Read together, the partition separates into three groups rather than behaving as a
+single object. The catalytic core, RT3--RT5, is supported by both routes: it carries the
+59 characters alignable across all bacterial RTs in~\cite{simon2008}, and RT3 and RT5 are
+the only two elements aligned in every bacterial representative of that study's Figure~4.
+The insertions 2a and 3a are structurally well defined but lineage-restricted, and are
+not elements of the RT0--RT7 span in the sense the other rows are. RT0, RT1 and RT7 are
+weak by both routes, and each fails in a different way.
+
+RT0 is the element the retron literature reports in and cannot align. It is absent from
+the original partition~\cite{xiong1990}, was added later from the non-LTR
+literature~\cite{malik1999,zimmerly2001}, and in LtrA is delimited only as the content of
+a 10\,kDa proteolytic fragment~\cite{blocker2005}. It is excluded from every
+transferability figure published by the study that quantified transferability, whose
+counts are taken over domains 1--7 although its alignment is presented over
+0--7~\cite{simon2008}. And in that alignment it is not alignable with the group~II
+reference in any of the three retron or three DGR representatives shown. This is a
+statement about the coordinate system and not about the proteins: the authors are
+explicit that sufficient residues are present to correspond to the elements that cannot
+be aligned. But it means that the span on which the retron datasets are
+filtered~\cite{toro2019} and the retron phylogeny is inferred~\cite{mestre2020} opens
+with an element that has no published alignable extent in retrons, and that the
+$\ge$200-amino-acid threshold applied to that span therefore measures something whose
+starting point is undefined for a quarter of the dataset.
+
+RT1 and RT7 fail at the outer edges of the 1--7 span. Both were reported as unalignable
+for many bacterial RTs~\cite{simon2008}; in the occupancy reading, RT1 is not aligned in
+AbiA and only partially in AbiK, while RT7 is not alignable in any AbiK, AbiA or Abi-P2
+representative and is partial or absent in the retrons. For RT1 the crystallographic
+literature supplies a candidate mechanism and, in the same source, its limit. Yang
+\textit{et al.}~\cite{yang2025} report that RT1, which ordinarily forms two antiparallel
+$\beta$-strands including a fingertips loop over the active site, was disordered and not
+visible in the G2L4 apoenzyme, having been displaced by an RT3a plug occupying the active
+site; on DNA binding, extrusion of that plug allowed RT1 to re-form the expected strands.
+They also report that in group~II intron RT apoenzymes obtained with constructs lacking a
+thumb (PDB 5HHJ, 5HHL) the shorter RT3a, which lacks a nine-residue insertion present in
+G2L4, does not displace the RT1 strands, which remain ordered over the active-site
+pocket; the insertion is described there as a unique adaptation of G2L4. The displacement
+mechanism is therefore lineage-specific as currently documented, and does not by itself
+account for the unalignability of domain~1 across bacterial RTs reported
+earlier~\cite{simon2008}. Two readings remain open: that RT1 is conformationally labile
+in a way only sometimes captured crystallographically, of which G2L4 is the clearest
+instance; or that the sequence and structural weaknesses of RT1 have separate causes and
+their coincidence is not evidence of one. Distinguishing them requires tabulating which
+RT1 residues are unmodelled across deposited prokaryotic RT structures rather than
+reasoning from one pair, which is done in Section~\ref{sec:results-rt1}. Neither reading
+is assumed in deriving the boundaries below.
+
+% An element ordered only in the
+% active state would be expected to align poorly in sequence and to be inconsistently resolved
+% across structures. That is the pattern this work reports for RT1 from sequence and from
+% deposited structures (Section~\ref{sec:results-rt1}), and it is consistent with the
+% unalignability of domains 1, 2 and 7 reported earlier~\cite{simon2008}. This is stated as a hypothesis consistent with the evidence rather than
+% as a demonstrated explanation; it is not tested in this work.
+
+% % =====================================================================
+%  TABLE 2 -- element x evidence matrix
+% =====================================================================
+\begingroup
+\footnotesize
+\setlength{\LTcapwidth}{\textwidth}
+\begin{longtable}{@{}L{0.13\rtwd} L{0.18\rtwd} L{0.35\rtwd} L{0.34\rtwd}@{}}
+\caption[Sequence and structural evidence per RT element]{%
+  \textbf{Sequence and structural evidence, element by element.}
+  Rows follow the conventional order of the RT0--RT7 span; domain X and the retron regions
+  X and Y are appended because they are reported in the same coordinate system while lying
+  partly outside it.}
+\label{tab:rt-elements}\\
+\toprule
+\textbf{Element} & \textbf{Fold location}$^{a}$ & \textbf{Sequence evidence} &
+\textbf{Structural evidence} \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{@{}l}{\emph{Table \thetable\ (continued)}}\\
+\toprule
+\textbf{Element} & \textbf{Fold location} & \textbf{Sequence evidence} &
+\textbf{Structural evidence} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r@{}}{\emph{continued on the next page}}\\
+\endfoot
+
+\bottomrule
+\addlinespace[2pt]
+\multicolumn{4}{@{}p{\textwidth}@{}}{\footnotesize
+  $^{a}$~Blocker \textit{et al.}~\cite{blocker2005} assign RT1--RT7 collectively to the
+  fingers and palm subdomains; block-level assignments are approximate except for RT1,
+  placed over the active site~\cite{yang2025}, and RT5, which carries the catalytic
+  aspartates. No source consulted states element boundaries residue-by-residue against
+  the subdomains, and the colouring in~\cite{yang2025}, Fig.~1A does not everywhere
+  agree with the ordering assumed here; the assignments in this column should be read as
+  approximate throughout.\newline
+  $^{b}$~Note the nomenclature collision: \emph{domain}~X denotes the thumb and part of
+  the connection subdomain~\cite{blocker2005}, whereas \emph{region}~X denotes the retron
+  \motif{NAXXH} element~\cite{toro2014,mestre2020}. The two are unrelated and lie at
+  opposite ends of the molecule. This thesis uses ``thumb'' for the former throughout,
+  noting that the correspondence is to the thumb and part of the connection rather than
+  to the thumb alone.\newline
+  $^{c}$~Percentages in the regions X and Y rows are reported
+  in~\cite{toro2014} over 102 retron/retron-like sequences at ${\le}85\%$ identity, with
+  no matching rule stated for the motifs.}\\
+\endlastfoot
+
+RT0 / NTE & Extended fingers
+  & Absent from~\cite{xiong1990}; described in non-LTR RTs~\cite{malik1999,zimmerly2001};
+    within a 10\,kDa N-terminal proteolytic fragment of LtrA (M1--R85), conserved
+    Ala39~\cite{blocker2005}; \emph{not alignable with the group~II reference in
+    any of the three retron or three DGR representatives}~\cite{simon2008};
+    excluded from all published transferability counts~\cite{simon2008}
+  & Loop within an N-terminal extension~\cite{yang2025}. Helical character
+    predicted in~\cite{blocker2005} \\[3pt]
+
+RT1 & Fingertips, over the active site
+  & Unalignable for many bacterial RTs~\cite{simon2008}; no reference to RT1 in
+    \cite{toro2019,mestre2020} (inspection of the published text)
+  & Two antiparallel $\beta$-strands when ordered; \emph{disordered} in the G2L4
+    apoenzyme (9D5X), displaced by an RT3a plug; re-forms on DNA binding (9D4S).
+    In group~II intron RT apoenzymes lacking the 9-aa RT3a insertion (5HHJ,
+    5HHL) the RT1 strands remain ordered, and the insertion is described as a
+    G2L4-specific adaptation~\cite{yang2025} \\[3pt]
+
+RT2 & Fingers
+  & Unalignable for many bacterial RTs~\cite{simon2008}
+  & Resolved in both states~\cite{yang2025} \\[3pt]
+
+RT2a & Insertion
+  & LtrA \motif{SYGFRPX(K/R)S}, residues 130--138~\cite{blocker2005}
+  & Shared with RdRPs; lost from retroviral RTs~\cite{yang2025} \\[3pt]
+
+RT3 & Fingers--palm
+  & Within the universal core: 59 alignable characters across domains
+    3--5~\cite{simon2008}
+  & Resolved in both states~\cite{yang2025} \\[3pt]
+
+RT3a & Insertion
+  & Lineage-specific; defined relative to HIV-1 RT~\cite{blocker2005}
+  & Forms the plug occupying the active site in the apoenzyme; extruded on DNA
+    binding~\cite{yang2025} \\[3pt]
+
+RT4 & Palm & Universal core~\cite{simon2008}; insertion 4a~\cite{blocker2005}
+  & Resolved in both states~\cite{yang2025} \\[3pt]
+
+RT5 & Palm (catalytic)
+    & \motif{Y/FXDD}; class-specific variants: \motif{YIDD} in G2L4~\cite{toro2014},
+    \motif{Y(V/M)DD} in DGRs~\cite{toro2014}, conserved Arg at the variable position in
+    Abi-P2~\cite{simon2008}, x nearly always hydrophobic
+    & Catalytic \motif{YIDD} confirmed in G2L4~\cite{yang2025}; three invariant
+    aspartates~\cite{arkhipova2023} \\[3pt]
+
+RT6 & Palm & Conserved across classes~\cite{simon2008}
+  & Resolved in both states~\cite{yang2025} \\[3pt]
+
+RT7 & Palm, adjacent to the thumb\tnote{c}
+  & Unalignable for many bacterial RTs~\cite{simon2008}; insertion 7a~\cite{blocker2005}
+  & Not alignable in any AbiK or Abi-P2 representative, and partial or absent in
+    the retron representatives~\cite{simon2008}. The Abi RT-like domain retains
+    palm and fingers; it is the thumb that is replaced by a helical repeat
+    domain~\cite{figiel2022}, which does not bear on RT7 \\[3pt]
+
+\addlinespace
+\multicolumn{4}{@{}l}{\emph{Reported in the same coordinate system but lying outside the
+  RT0--RT7 span}}\\
+\addlinespace
+
+Domain X$^{b}$ & Thumb and part of the connection
+  & Downstream of RT7; present within the 27\,kDa X-D-En proteolytic fragment
+    (R365--K599, or S372--K599 from a second cleavage)~\cite{blocker2005}
+  & Not resolved here \\[3pt]
+
+Region X$^{b,c}$ & Between RT2 and RT3 &
+  \motif{NAXXH}, identified in 59\% of 102 retron/retron-like sequences; His 100\%, Ala 87\%, Asn 62\% conserved~\cite{toro2014}; suggested to be required for initiation or catalysis~\cite{mestre2020} &
+  Not resolved \\[3pt]
+  
+Region Y$^{b,c}$ & Within RT7 &
+  \motif{VTG}, Gly most conserved; 47\% of the same set, with a further 26\% carrying an I/L variant at the first position~\cite{toro2014}; implicated in targeting the RT to its cognate \textit{msr}~\cite{inouye1999,mestre2020} &
+  Not resolved \\
+
+\end{longtable}
+\endgroup
+
+
+\newcommand{\algn}{\ensuremath{\bullet}}
+\newcommand{\prtl}{\ensuremath{\circ}}
+\newcommand{\nalg}{\textendash}
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption[Element occupancy by RT class]{%
+  \textbf{Element occupancy by RT class, read from the published alignment.}
+  Status of each element in the representative sequences of Figure~4
+  of~\cite{simon2008}. \algn~aligned with the group~II reference,
+  \prtl~partial or ambiguously aligned, \nalg~not alignable. Fractions give the
+  number of representatives showing the majority state where a class is not uniform.}
+\label{tab:rt-occupancy}
+\footnotesize
+\begin{tabular}{@{}l c *{9}{c}@{}}
+\toprule
+\textbf{RT class} & \textbf{$n$} &
+\textbf{0} & \textbf{1} & \textbf{2} & \textbf{2a}\tnote{a} &
+\textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} \\
+\midrule
+\multicolumn{11}{@{}l}{\emph{Bacterial}}\\
+Group II introns & 3 & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn \\
+Group II-like 1  & 4 & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn \\
+Group II-like 2  & 3 & \algn & \algn & \algn & \algn~(2/3) & \algn & \algn & \algn & \algn & \algn \\
+Group II-like 3  & 2 & \algn & \algn & \algn & \nalg & \algn & \algn & \algn & \algn & \algn \\
+Group II-like 4  & 2 & \prtl & \algn & \algn & \algn & \algn & \algn & \algn & \prtl & \algn \\
+Group II-like 5  & 2 & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \nalg & \algn \\
+Retrons          & 3 & \nalg & \algn & \algn & \nalg & \algn & \algn & \algn & \algn & \prtl~(2/3) \\
+DGRs             & 3 & \nalg & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn \\
+AbiK             & 3 & \algn & \prtl & \algn & \nalg & \algn & \algn & \algn & \algn & \nalg \\
+AbiA             & 1 & \nalg & \nalg & \nalg & \nalg & \algn & \nalg & \algn & \algn & \nalg \\
+Abi-P2           & 3 & \algn & \algn & \algn & \nalg & \algn & \algn & \algn & \algn & \nalg \\
+\addlinespace
+\multicolumn{11}{@{}l}{\emph{Eukaryotic and viral, shown for context}\tnote{b}}\\
+Retroplasmids    & 3 & \algn & \algn & \algn & \nalg & \algn & \algn & \algn & \algn & \algn \\
+non-LTRs         & 3 & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn & \algn \\
+LTRs             & 3 & \nalg & \prtl & \algn & \nalg & \algn & \algn & \algn & \algn & \algn \\
+Hepadnaviruses   & 3 & \nalg & \algn & \prtl & \nalg & \algn & \algn & \algn & \algn & \algn \\
+PLEs             & 3 & \nalg & \algn & \algn & \nalg & \algn & \algn & \algn & \algn & \algn \\
+TERTs            & 3 & \nalg & \prtl & \algn & \nalg & \algn & \algn & \algn & \algn & \prtl \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item[$\ast$] The scoring is a reading of the published figure made here, not a
+  classification offered by the authors. Following the figure legend, \nalg~indicates
+  that the sequence could not be aligned with the group~II reference, \emph{not} that
+  the residues are absent: the authors state that sufficient amino acids are present to
+  correspond to the missing domains, with the possible exception of 2a. Three
+  representatives per class are shown in the figure except where noted.
+\item[a] 2a is an insertion shared by a subset of lineages rather than a canonical
+  element of the RT0--RT7 span, and is shown as annotation only; it is not counted
+  towards occupancy.
+\item[b] The cross-class measures of~\cite{simon2008} are derived over bacterial RTs
+  only. These rows are reproduced for comparison and contribute to no count reported
+  here.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% ---------------------------------------------------------------------
+\subsection{Consequence for the present work}
+\label{sec:rt-partition-consequence}
+
+Taken together, Tables~\ref{tab:rt-sources} and~\ref{tab:rt-elements} identify what is
+measured and what is inherited. The boundaries carry no uncertainty estimate, the profile
+models used to locate RT elements in new sequences are built from alignments constructed
+around those same boundaries, and the coordinate system in which retron elements are
+conventionally reported has never been assigned an explicit criterion. Distinguishing the
+measured from the inherited therefore requires deriving element boundaries directly from
+sequence data, with stated criteria and confidence intervals, in a coordinate system that
+does not presuppose the partition being tested. That is the task of
+Chapter~\ref{chap:boundaries}.
+
+One further caution applies to landmark-based approaches. The dNTP-binding motif is
+\motif{AQG} in G2L4 and \motif{PQG} in group II intron RT~\cite{yang2025}: the general form
+is \motif{XQG}, and any search keyed on a literal \motif{PQG} is class-specific by
+construction.
+
+
+% =====================================================================
+%  OPTIONAL: provenance chain as a figure. Delete if the prose suffices.
+% =====================================================================
+% \begin{figure}[htbp]
+% \centering
+% \footnotesize
+% \begin{tikzpicture}[
+%   node distance = 5mm and 0mm,
+%   box/.style   = {draw, rounded corners=2pt, align=left, inner sep=4pt, text width=6.0cm},
+%   note/.style  = {align=left, text width=5.2cm, font=\footnotesize\itshape},
+%   arr/.style   = {-{Latex[length=2mm]}, thick}
+% ]
+% \node[box] (a) {Xiong \& Eickbush 1990 --- domains 1--7, 178 aa; no RT0};
+% \node[box, below=of a] (b) {Malik 1999 / Zimmerly 2001 --- RT0 described};
+% \node[box, below=of b] (c) {Blocker \textit{et al.} 2005 --- LtrA anatomy; RT0--RT7 $+$ thumb};
+% \node[box, below=of c] (d) {Toro \& Nisa-Mart{\'i}nez 2014 --- 742-seq phylogeny};
+% \node[box, below=of d] (e) {Toro \textit{et al.} 2019 --- 9{,}141 representatives};
+% \node[box, below=of e] (f) {Rodr{\'i}guez Mestre \textit{et al.} 2020 --- retron clades; regions X, Y};
+
+% \draw[arr] (a) -- (b); \draw[arr] (b) -- (c); \draw[arr] (c) -- (d);
+% \draw[arr] (d) -- (e); \draw[arr] (e) -- (f);
+
+% \node[note, right=4mm of a] {delimited by inspection};
+% \node[note, right=4mm of c] {blocks drawn ``as defined by'' 1990, 2001};
+% \node[note, right=4mm of d] {200 aa applied to the \textbf{protein}; no source cited for the span};
+% \node[note, right=4mm of e] {200 aa applied to the \textbf{span}};
+% \node[note, right=4mm of f] {inherits the span; regions X, Y attributed to Simon 2019};
+% \end{tikzpicture}
+% \caption[Provenance of the RT0--RT7 span]{%
+%   \textbf{Provenance of the RT0--RT7 span.} Two threads run through this literature and
+%   only one carries provenance: Blocker \textit{et al.} state the source of their blocks
+%   explicitly, whereas the Toro--Mestre lineage, on which the retron field relies, cites no
+%   source for the span. The annotations record what the published methods state, and the
+%   contrast drawn between the two threads is an observation made here.}
+% \label{fig:rt-provenance}
+% \end{figure}

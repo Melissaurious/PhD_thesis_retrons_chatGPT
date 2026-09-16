@@ -1,0 +1,140 @@
+% =====================================================================
+%  general_workflow.tex  --  include with \input{general_workflow}
+%  Requires in the MAIN preamble:
+%     \usepackage{tikz}
+%     \usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
+%     \usepackage{xcolor}   % loaded by tikz anyway
+%  No \documentclass / \begin{document} here on purpose.
+% =====================================================================
+
+% ------------------------- colour palette ----------------------------
+\definecolor{cInput}{HTML}{7B4B94}   % purple - input
+\definecolor{cProc} {HTML}{2C6E9B}   % blue   - sequence / protein steps
+\definecolor{cRNA}  {HTML}{1B7F5F}   % green  - RNA structure steps
+\definecolor{cDec}  {HTML}{C1651A}   % orange - decision
+\definecolor{cMan}  {HTML}{B3282B}   % red    - manual curation
+\definecolor{cOut}  {HTML}{3F4A57}   % slate  - output
+\definecolor{cSeed} {HTML}{8A8F98}   % grey   - reference data
+
+% ------------------------------ styles -------------------------------
+\tikzset{
+  base/.style={draw, rounded corners=3pt, line width=0.9pt, align=center,
+               inner sep=6pt, minimum height=13mm, text width=72mm,
+               font=\small},
+  input/.style ={base, draw=cInput, fill=cInput!8},
+  proc/.style  ={base, draw=cProc,  fill=cProc!7},
+  rna/.style   ={base, draw=cRNA,   fill=cRNA!7},
+  manual/.style={base, draw=cMan,   fill=cMan!6, text width=60mm},
+  output/.style={base, draw=cOut,   fill=cOut!10, line width=1.3pt},
+  seed/.style  ={base, draw=cSeed,  fill=cSeed!12, text width=33mm,
+                 minimum height=10mm, font=\footnotesize},
+  decision/.style={draw=cDec, fill=cDec!8, line width=0.9pt, diamond,
+                   aspect=2.2, align=center, inner sep=1pt,
+                   text width=36mm, font=\small},
+  flow/.style={-{Stealth[length=3mm,width=2mm]}, line width=0.9pt,
+               draw=black!70},
+  dashflow/.style={flow, dashed, dash pattern=on 3pt off 2pt, draw=cSeed},
+  loop/.style={-{Stealth[length=3mm,width=2mm]}, line width=0.9pt,
+               draw=cMan!85!black},
+  elab/.style={font=\footnotesize\bfseries, inner sep=2pt, fill=white,
+               text=black!75},
+  note/.style={font=\scriptsize\itshape, text=black!60, align=left},
+}
+
+% \wfstep{number}{action}{tools}
+\providecommand{\wfstep}[3]{\textbf{#1.~#2}\\[1.5pt]{\footnotesize\itshape #3}}
+
+\begin{tikzpicture}[node distance=8mm]
+
+% --------------------------- main chain ------------------------------
+\node[input] (in)
+  {\textbf{Input:} assembled contigs / genomes\\[1pt]
+   {\footnotesize nucleotide FASTA --- isolates or metagenomes}};
+
+\node[proc, below=of in] (orf)
+  {\wfstep{1}{Gene calling / ORF prediction}
+        {Prodigal $\rightarrow$ \texttt{.gff}, \texttt{.faa}, \texttt{.fna}}};
+
+\node[proc, below=of orf] (rt)
+  {\wfstep{2}{Identify the reverse transcriptase}
+        {HMMER (\texttt{hmmsearch}) vs.\ retron-RT profiles}};
+
+\node[proc, below=of rt] (win)
+  {\wfstep{3}{Extract the genomic window up- and downstream of the RT}
+        {intergenic regions $+$ flanking ORFs, $\pm$5--10\,kb}};
+
+\node[rna, below=of win] (cm)
+  {\wfstep{4}{Build covariance models from validated \textit{msr--msd} sequences}
+        {Infernal \texttt{cmbuild} / \texttt{cmcalibrate}}};
+
+\node[rna, below=of cm] (motif)
+  {\wfstep{5}{Covariance-model-based ncRNA motif search in the non-coding region}
+        {CMfinder $\cdot$ Infernal \texttt{cmsearch}}};
+
+\node[decision, below=12mm of motif] (dec)
+  {Structured\\ \textit{msr--msd}\\ recovered?};
+
+\node[rna, below=12mm of dec] (align)
+  {\wfstep{6}{Collect ncRNA candidate homologs and align}
+        {MAFFT (\texttt{--Q-INS-i})}};
+
+\node[rna, below=of align] (rscape)
+  {\wfstep{7}{Validate covariation, control for phylogeny, confirm the functional structure}
+        {R-scape}};
+
+\node[proc, below=of rscape] (acc)
+  {\wfstep{8}{Annotate the accessory / effector genes of the confirmed \textit{msr--msd}--RT unit}
+        {InterPro $\cdot$ BLAST $\cdot$ HHpred / HHblits}};
+
+\node[output, below=of acc] (out)
+  {\textbf{Fully annotated retron operon}\\[2pt]
+   {\footnotesize \textit{msr--msd} ncRNA \; $+$ \; RT \; $+$ \; accessory / effector gene(s)}};
+
+% ------------------ reference data feeding the pipeline ---------------
+\node[seed, left=15mm of rt] (seedRT)
+  {\textbf{Reference set}\\ curated retron RT\\ protein sequences};
+\node[seed, below=16mm of seedRT] (seedRNA)
+  {\textbf{Reference set}\\ validated \textit{msr--msd}\\ transcripts $+$ relatives};
+
+% ----------------------- manual curation branch -----------------------
+\node[manual, right=18mm of dec, yshift=-4mm] (man)
+  {\textbf{Manual curation}\\[2pt]
+   {\footnotesize inspect the intergenic region for \textit{msr--msd}-like folds
+   \emph{(RNAfold)}; build an RNA MSA of close relatives
+   \emph{(MAFFT-Q-INS-i)}; trim the \textbf{a1}/\textbf{a2} arms
+   and re-extract the flanks}};
+
+% ------------------------------ arrows --------------------------------
+\draw[flow] (in)     -- (orf);
+\draw[flow] (orf)    -- (rt);
+\draw[flow] (rt)     -- (win);
+\draw[flow] (win)    -- (cm);
+\draw[flow] (cm)     -- (motif);
+\draw[flow] (motif)  -- (dec);
+\draw[flow] (dec)    -- node[elab,right]{Yes} (align);
+\draw[flow] (align)  -- (rscape);
+\draw[flow] (rscape) -- (acc);
+\draw[flow] (acc)    -- (out);
+
+\draw[dashflow] (seedRT.east)  -- (rt.west);
+\draw[dashflow] (seedRNA.east) -| ($(cm.west)+(-7mm,0)$) -- (cm.west);
+
+% no-branch into manual curation
+\draw[flow] (dec.east) -- node[elab,above,pos=0.4]{No} ++(9mm,0) |- (man.west);
+% manual curation feeds the alignment step ...
+\draw[loop] (man.south) |- (align.east);
+% ... and iterates back to model building
+\draw[loop] (man.north) -- ++(0,11mm) -| ($(cm.east)+(14mm,0)$)
+            -- node[elab,pos=0.9,above]{iterate} (cm.east);
+
+% ------------------------------- notes ---------------------------------
+\node[note, anchor=north east, text width=45mm] at ($(cm.west)+(-14mm,2mm)$)
+  {\textbf{Note:} sequence diversity usually\\ requires several independent CMs\\
+   (one per retron clade / ncRNA family).};
+
+\node[note, anchor=north, text width=105mm] at ($(out.south)+(0,-3mm)$)
+  {\textbf{Note:} steps 4--7 are iterative --- trimming of the \textbf{a1}/\textbf{a2}
+   regions and repeating the alignment typically improves the consensus
+   structure before covariation is tested.};
+
+\end{tikzpicture}

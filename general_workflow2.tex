@@ -1,0 +1,133 @@
+% =====================================================================
+%  general_workflow.tex  --  include with \input{general_workflow}
+%  Requires in the MAIN preamble:
+%     \usepackage{tikz}
+%     \usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
+%  No \documentclass / \begin{document} here on purpose.
+% =====================================================================
+
+% ------------------------- colour palette ----------------------------
+\definecolor{cInput}{HTML}{7B4B94}   % purple - input
+\definecolor{cProc} {HTML}{2C6E9B}   % blue   - automated, protein level
+\definecolor{cRNA}  {HTML}{1B7F5F}   % green  - automated, RNA level
+\definecolor{cDec}  {HTML}{C1651A}   % orange - decision
+\definecolor{cMan}  {HTML}{B3282B}   % red    - manual / iterative
+\definecolor{cOut}  {HTML}{3F4A57}   % slate  - output
+\definecolor{cSeed} {HTML}{8A8F98}   % grey   - reference data
+
+% ------------------------------ styles -------------------------------
+\tikzset{
+  base/.style={draw, rounded corners=3pt, line width=0.9pt, align=center,
+               inner sep=6pt, minimum height=13mm, text width=72mm,
+               font=\small},
+  input/.style ={base, draw=cInput, fill=cInput!8},
+  proc/.style  ={base, draw=cProc,  fill=cProc!7},
+  rna/.style   ={base, draw=cRNA,   fill=cRNA!7},
+  manual/.style={base, draw=cMan,   fill=cMan!6, text width=44mm,
+                 minimum height=15mm},
+  output/.style={base, draw=cOut,   fill=cOut!10, line width=1.3pt},
+  seed/.style  ={base, draw=cSeed,  fill=cSeed!12, text width=33mm,
+                 minimum height=10mm, font=\footnotesize},
+  decision/.style={draw=cDec, fill=cDec!8, line width=0.9pt, diamond,
+                   aspect=2.2, align=center, inner sep=1pt,
+                   text width=36mm, font=\small},
+  flow/.style={-{Stealth[length=3mm,width=2mm]}, line width=0.9pt,
+               draw=black!70},
+  dashflow/.style={flow, dashed, dash pattern=on 3pt off 2pt, draw=cSeed},
+  loop/.style={-{Stealth[length=3mm,width=2mm]}, line width=1pt,
+               draw=cMan!85!black},
+  elab/.style={font=\footnotesize\bfseries, inner sep=2pt, fill=white,
+               text=black!75},
+  note/.style={font=\scriptsize\itshape, text=black!60, align=left},
+  key/.style={draw, rounded corners=2pt, line width=0.8pt,
+              minimum width=5mm, minimum height=3mm, inner sep=0pt},
+}
+
+% \wfstep{number}{action}{tools}
+\providecommand{\wfstep}[3]{\textbf{#1.~#2}\\[1.5pt]{\footnotesize\itshape #3}}
+
+\begin{tikzpicture}[node distance=8mm]
+
+% ------------------- automated spine (blue / green) -------------------
+\node[input] (in)
+  {\textbf{Input:} assembled contigs / genomes\\[1pt]
+   {\footnotesize nucleotide FASTA --- isolates or metagenomes}};
+
+\node[proc, below=of in] (orf)
+  {\wfstep{1}{Gene calling / ORF prediction}{Prodigal}};
+
+\node[proc, below=of orf] (rt)
+  {\wfstep{2}{Identify the reverse transcriptase}
+        {HMMER \texttt{hmmsearch} vs.\ retron-RT profiles}};
+
+\node[proc, below=of rt] (win)
+  {\wfstep{3}{Extract the genomic window $\pm$ of the RT}
+        {intergenic regions $+$ flanking ORFs}};
+
+\node[rna, below=of win] (cm)
+  {\wfstep{4}{Build covariance models from validated \textit{msr--msd} sequences}
+        {Infernal \texttt{cmbuild}}};
+
+\node[rna, below=of cm] (motif)
+  {\wfstep{5}{Covariance-model search for the \textit{msr--msd} in the non-coding region}
+        {CMfinder $\cdot$ Infernal \texttt{cmsearch}}};
+
+\node[decision, below=12mm of motif] (dec)
+  {Structured\\ \textit{msr--msd}\\ recovered?};
+
+\node[rna, below=12mm of dec] (rscape)
+  {\wfstep{6}{Align candidates and validate the consensus structure by covariation}
+        {MAFFT $\cdot$ R-scape}};
+
+\node[proc, below=of rscape] (acc)
+  {\wfstep{7}{Annotate the accessory / effector genes of the \textit{msr--msd}--RT unit}
+        {InterPro $\cdot$ BLAST $\cdot$ HHpred / HHblits}};
+
+\node[output, below=of acc] (out)
+  {\textbf{Fully annotated retron operon}\\[2pt]
+   {\footnotesize \textit{msr--msd} ncRNA \; $+$ \; RT \; $+$ \; accessory / effector gene(s)}};
+
+% ------------------ reference data feeding the pipeline ---------------
+\node[seed, left=15mm of rt] (seedRT)
+  {\textbf{Query profiles}\\ HMMs built from curated\\ retron-RT proteins};
+\node[seed, below=16mm of seedRT] (seedRNA)
+  {\textbf{Seed alignments}\\ validated \textit{msr--msd}\\ transcripts $+$ relatives};
+
+% --------------- label for the reference-data column ------------------
+\node[note, anchor=south, text width=40mm, align=center]
+      at ($(seedRT.north)+(0,3mm)$)
+      {\textbf{Prior knowledge:} query models,\\ not sequences under analysis};
+
+% ------------------------ manual curation branch ----------------------
+\node[manual, right=14mm of dec, yshift=-3mm] (man)
+  {\textbf{Manual inspection and}\\\textbf{iterative refinement}\\[1pt]
+   {\footnotesize RNAfold $\cdot$ MAFFT-Q-INS-i}};
+
+% ------------------------------ arrows --------------------------------
+\draw[flow] (in)     -- (orf);
+\draw[flow] (orf)    -- (rt);
+\draw[flow] (rt)     -- (win);
+\draw[flow] (win)    -- (cm);
+\draw[flow] (cm)     -- (motif);
+\draw[flow] (motif)  -- (dec);
+\draw[flow] (dec)    -- node[elab,right]{Yes} (rscape);
+\draw[flow] (rscape) -- (acc);
+\draw[flow] (acc)    -- (out);
+
+\draw[dashflow] (seedRT.east)  -- (rt.west);
+\draw[dashflow] (seedRNA.east) -| ($(cm.west)+(-7mm,0)$) -- (cm.west);
+
+
+% no-branch into manual curation, and back into the spine
+\draw[flow] (dec.east) -- node[elab,above,pos=0.4]{No} (man.west);
+\draw[loop] (man.south) |- node[elab,pos=0.75,above]{iterate} (rscape.east);
+\draw[loop] (man.north) -- ++(0,12mm) -| ($(cm.east)+(12mm,0)$) -- (cm.east);
+
+% ------------------------------- legend --------------------------------
+\node[note, anchor=north west, text width=170mm] at ($(out.south west)+(0,-4mm)$)
+  {\tikz\node[key, draw=cProc, fill=cProc!7]{};\;automated, protein level \quad
+   \tikz\node[key, draw=cRNA, fill=cRNA!7]{};\;automated, RNA level \quad
+   \tikz\node[key, draw=cMan, fill=cMan!6]{};\;manual and iterative \quad
+   \tikz\node[key, draw=cSeed, fill=cSeed!12]{};\;prior knowledge / query models};
+
+\end{tikzpicture}
