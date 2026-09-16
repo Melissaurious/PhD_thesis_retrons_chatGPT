@@ -1,0 +1,14 @@
+tex_label	figure_stem	file_exists	declared_placeholder	caption_head	section	source_tables	generated_utc
+fig:units	A1_unit_ladder	True	False	Reduction of the corpus across analytical units, and the dependence of…	A1	A1_unit_ladder	2026-09-16T19:05:01Z
+fig:dboverlap	A4_database_attribution	True	False	Overlap between source collections. Per-collection counts are coverage…	A4	A4_database_attribution;A4_exact_rt_database_span;A4_locus_database_sets	2026-09-16T19:05:03Z
+fig:families	B1_family_composition	True	False	Family composition of distinct RT proteins, compared with the record-l…	B1	B1_family_composition;B1_views	2026-09-16T19:05:03Z
+fig:lengths	B2_rt_length_by_family	True	False	Distribution of RT protein length by family, on distinct single-family…	B2	B2_rt_length_by_family	2026-09-16T19:05:04Z
+fig:completeness	B3_completeness_by_family	True	False	Completeness composition by family. A missing Prodigal attribute is cl…	B3	B3_completeness_by_family	2026-09-16T19:05:04Z
+fig:multi	FIG_multi_margin	False	True	Margin between the best- and second-best-scoring family profile for mu…			
+fig:ncrnalen	C2_ncrna_length_by_model	True	False	Length distribution of detected RNAs by covariance model. These are mo…	C2	C2_ncrna_length_by_model	2026-09-16T19:05:06Z
+fig:cmcomp	C3_model_composition	True	False	Model composition at the level of calls and of distinct RNA sequences;…	C3	C3_model_composition	2026-09-16T19:05:06Z
+fig:geometry	D2_distance_distribution	True	False	Signed separation between RT and RNA, stratified by truncation of the …	D2	D2_distance_histogram;D2_distance_stats;D2_downstream_strata	2026-09-16T19:05:07Z
+fig:joint	D6_joint_geometry	True	False	Joint distribution of direction, strand, adjacency and separation, and…	D6	D6_joint_geometry;D6_marginals_by_weighting;D6_weighting_comparison	2026-09-16T19:05:09Z
+fig:strand	D5_strand_agreement	True	False	Same-strand rate across populations, and the structure of the opposite…	D5	D5_opposite_strand_composition;D5_opposite_strand_profile;D5_same_strand_by_population	2026-09-16T19:05:08Z
+fig:topology	F_pairing_topology	True	False	Partner-count distributions on both sides of the association, componen…	F	F0_pair_view_basis;F1_partner_degrees;F1_topology_summary;F2_component_shapes;F3_recurrence_classes;F3_recurrence_x_ambiguity	2026-09-16T19:05:10Z
+fig:venn	FIG_tool_venn	False	True	Agreement between myRT, PADLOC and DefenseFinder on distinct Retron RT…			
